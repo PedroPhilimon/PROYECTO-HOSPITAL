@@ -1,4 +1,6 @@
-package com.servicio_medicos.ms_medicos.Controller;
+package com.servicio_medicos.ms_medicos.dto;
+
+import com.servicio_medicos.ms_medicos.model.Especialidad;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -24,5 +26,7 @@ public class MedicoDTO {
     private String email;
     @NotEmpty
     private String numero;
+
+    Especialidad especialidad;
 
 }
