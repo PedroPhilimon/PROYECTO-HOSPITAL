@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,15 +24,19 @@ public class Medico {
     @Column(name = "id_medico")
     private Long id;
 
+    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(nullable = false)
     private String nombre;
 
+    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(nullable = false)
     private String apellido;
 
+    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(nullable = false)
     private String email;
     
+    @NotBlank(message = "El nombre no puede estar vacío")
     @Column(nullable = false)
     private String numero;
 

@@ -11,3 +11,5 @@ CREATE TABLE medico (
     numero VARCHAR(255) NOT NULL,
     prevision VARCHAR(255) NOT NULL
 );
+
+
