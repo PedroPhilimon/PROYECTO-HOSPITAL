@@ -52,6 +52,11 @@ public class CitaMedica {
 
     @Column(length = 255)
     private String motivo;
+    
+    
+    @ManyToOne
+    @JoinColumn(name = "sala_id")
+    private SalaAtencion sala; 
 
 }
 
