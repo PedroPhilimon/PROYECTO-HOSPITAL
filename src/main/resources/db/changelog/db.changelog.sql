@@ -12,8 +12,8 @@ CREATE TABLE medico (
     prevision VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE especialidad {
+CREATE TABLE especialidad (
     id_especialidad BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL
-}
+)
 
