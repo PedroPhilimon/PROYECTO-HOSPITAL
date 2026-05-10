@@ -15,3 +15,4 @@ CREATE TABLE citas (
     
     observacion VARCHAR(500)
 );
+
