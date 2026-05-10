@@ -32,6 +32,14 @@ public class CitaMedicaService {
         return mapToResponseDTO(cita);
     }
 
+    public CitaMedica findById(long id) {
+        return citaMedicaRepository.findById(id).get();
+    }
+
+    public void delete(Long id) {
+        citaMedicaRepository.deleteById(id);
+    }
+
 
     public CitaResponseDTO crearCita(CitaRequestDTO request) {
         CitaMedica nuevaCita = new CitaMedica();

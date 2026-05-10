@@ -2,6 +2,7 @@ package com.servicio_citamedica.ms_citamedica.controller;
 
 import com.servicio_citamedica.ms_citamedica.dto.CitaRequestDTO;
 import com.servicio_citamedica.ms_citamedica.dto.CitaResponseDTO;
+import com.servicio_citamedica.ms_citamedica.model.CitaMedica;
 import com.servicio_citamedica.ms_citamedica.service.CitaMedicaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,5 +33,15 @@ public class CitaMedicaController {
     public ResponseEntity<CitaResponseDTO> crear(@RequestBody CitaRequestDTO request) {
         CitaResponseDTO nuevaCita = citaMedicaService.crearCita(request);
         return new ResponseEntity<>(nuevaCita, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CitaMedica> eliminar(@PathVariable Long id) {
+        try {
+            citaMedicaService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
