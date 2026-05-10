@@ -17,29 +17,17 @@ public class CitaMedicaController {
 
     private final CitaMedicaService citaMedicaService;
 
-    /**
-     * Endpoint para obtener todas las citas.
-     * GET /api/citas
-     */
     @GetMapping
     public ResponseEntity<List<CitaResponseDTO>> obtenerTodas() {
         List<CitaResponseDTO> citas = citaMedicaService.listarTodas();
         return ResponseEntity.ok(citas);
     }
 
-    /**
-     * Endpoint para obtener una cita por su ID.
-     * GET /api/citas/{id}
-     */
     @GetMapping("/{id}")
     public ResponseEntity<CitaResponseDTO> obtenerPorId(@PathVariable Long id) {
         return ResponseEntity.ok(citaMedicaService.obtenerPorId(id));
     }
 
-    /**
-     * Endpoint para crear una nueva cita.
-     * POST /api/citas
-     */
     @PostMapping
     public ResponseEntity<CitaResponseDTO> crear(@RequestBody CitaRequestDTO request) {
         CitaResponseDTO nuevaCita = citaMedicaService.crearCita(request);
