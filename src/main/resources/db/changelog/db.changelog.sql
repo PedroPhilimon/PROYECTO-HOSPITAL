@@ -19,4 +19,4 @@ CREATE TABLE citas (
     motivo VARCHAR(255),
     observacion VARCHAR(500),
     CONSTRAINT FK_SALA_CITA FOREIGN KEY (sala_id) REFERENCES SALA_ATENCION(id_sala)
-);
+); 
