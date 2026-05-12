@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.servicio_medicos.ms_medicos.Service.MedicoService;
-import com.servicio_medicos.ms_medicos.dto.MedicoDTO;
+import com.servicio_medicos.ms_medicos.dto.MedicoResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +19,7 @@ public class MedicoController {
     private final MedicoService medicoService; 
 
     @GetMapping("/{id}")
-    public ResponseEntity<MedicoDTO> getMedicoById(@PathVariable Long id) {
+    public ResponseEntity<MedicoResponseDTO> getMedicoById(@PathVariable Long id) {
         // 2. Usamos el punto '.' para llamar al método
         return ResponseEntity.ok(medicoService.findById(id));
     } 

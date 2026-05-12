@@ -3,7 +3,7 @@
 
 
 --changeset pedro:1
-CREATE TABLE medico (
+CREATE TABLE medicos (
     id_medico BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     apellido VARCHAR(255) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE medico (
     prevision VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE especialidad (
+CREATE TABLE especialidades (
     id_especialidad BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL
 )

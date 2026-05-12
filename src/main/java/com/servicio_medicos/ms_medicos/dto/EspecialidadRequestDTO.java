@@ -1,8 +1,5 @@
 package com.servicio_medicos.ms_medicos.dto;
 
-import com.servicio_medicos.ms_medicos.model.Especialidad;
-
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,19 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MedicoDTO {
+public class EspecialidadRequestDTO {
 
     @NotNull
     private Long id;
     @NotEmpty
-    private String nombre;
-    @NotEmpty
-    private String apellido;
-    @Email
-    private String email;
-    @NotEmpty
-    private String numero;
-
-    Especialidad especialidad;
-
+    private String name;
 }
