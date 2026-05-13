@@ -15,10 +15,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CitaMedica {
@@ -29,20 +33,16 @@ public class CitaMedica {
     private Long id;
 
     
-    @NotNull(message = "El ID del paciente es obligatorio")
     @Column(name = "paciente_id", nullable = false)
     private Long pacienteId;
 
-    @NotNull(message = "El ID del médico es obligatorio")
     @Column(name = "medico_id", nullable = false)
     private Long medicoId;
 
-    @NotNull(message = "La fecha es obligatoria")
     @FutureOrPresent(message = "La fecha no puede ser pasada")
     @Column(nullable = false)
     private LocalDate fecha;
 
-    @NotNull(message = "La hora es obligatoria")
     @Column(nullable = false)
     private LocalTime hora;
 
@@ -55,7 +55,7 @@ public class CitaMedica {
     
     
     @ManyToOne
-    @JoinColumn(name = "sala_id")
+    @JoinColumn(name = "id_sala")
     private SalaAtencion sala; 
 
 }

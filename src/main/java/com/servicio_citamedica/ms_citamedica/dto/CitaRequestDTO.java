@@ -9,10 +9,8 @@ import java.time.LocalTime;
 
 @Data
 public class CitaRequestDTO {
-    @NotNull(message = "El ID del paciente es obligatorio")
     private Long pacienteId;
 
-    @NotNull(message = "El ID del médico es obligatorio")
     private Long medicoId;
 
     @NotNull(message = "La fecha es obligatoria")
