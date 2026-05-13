@@ -1,7 +1,6 @@
 package com.servicio_medicos.ms_medicos.dto;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EspecialidadRequestDTO {
 
-    @NotNull
     private Long id;
-    @NotEmpty
-    private String name;
+    @NotBlank(message = "El nombre no puede estar vacío")
+    private String nombre;
 }

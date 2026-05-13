@@ -26,7 +26,7 @@ public class MedicoServiceImpl implements MedicoService {
     @Transactional
     public MedicoResponseDTO create(MedicoRequestDTO dto) {
         // Lógica: Validar que la especialidad exista
-        Especialidad especialidad = especialidadRepository.findById(dto.getId()) // Usando el ID del DTO para la especialidad
+        Especialidad especialidad = especialidadRepository.findById(dto.getEspecialidadId()) // Usando el ID del DTO para la especialidad
             .orElseThrow(() -> new RuntimeException("La especialidad no existe"));
 
         // Lógica: Mapear DTO a Entidad
@@ -62,7 +62,7 @@ public class MedicoServiceImpl implements MedicoService {
         Medico medicoExistente = medicoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Médico no encontrado"));
 
-        Especialidad especialidad = especialidadRepository.findById(dto.getId())
+        Especialidad especialidad = especialidadRepository.findById(dto.getEspecialidadId())
             .orElseThrow(() -> new RuntimeException("La especialidad no existe"));
 
         // Actualizar campos
@@ -83,4 +83,6 @@ public class MedicoServiceImpl implements MedicoService {
         }
         medicoRepository.deleteById(id);
     }
+
+    
 }

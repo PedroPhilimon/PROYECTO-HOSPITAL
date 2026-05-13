@@ -1,5 +1,7 @@
 package com.servicio_medicos.ms_medicos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,6 +47,7 @@ public class Medico {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_especialidad")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Especialidad especialidad;
      
 }

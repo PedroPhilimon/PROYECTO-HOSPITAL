@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class MedicoRequestDTO {
-    private Long id;
+    private Long especialidadId;
 
     @NotBlank(message = "El nombre es obligatorio")
     private String nombre;

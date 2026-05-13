@@ -23,7 +23,7 @@ public class EspecialidadServiceImpl implements EspecialidadService  {
     public EspecialidadResponseDTO create(EspecialidadRequestDTO dto) {
         
         Especialidad especialidad = new Especialidad();
-        especialidad.setNombre(dto.getName());
+        especialidad.setNombre(dto.getNombre());
 
         Especialidad guardada = especialidadRepository.save(especialidad);
         
