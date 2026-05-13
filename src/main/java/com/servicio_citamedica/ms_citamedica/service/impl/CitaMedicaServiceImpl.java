@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+
+import com.servicio_citamedica.ms_citamedica.client.MedicoClient;
+import com.servicio_citamedica.ms_citamedica.client.PacienteClient;
 import com.servicio_citamedica.ms_citamedica.dto.CitaRequestDTO;
 import com.servicio_citamedica.ms_citamedica.dto.CitaResponseDTO;
 import com.servicio_citamedica.ms_citamedica.model.CitaMedica;
@@ -19,7 +22,9 @@ import lombok.RequiredArgsConstructor;
 public class CitaMedicaServiceImpl implements CitaMedicaService {
     
     private final CitaMedicaRepository citaMedicaRepository;
-    private final SalaAtencionService salaAtencionService; // Inyectamos el servicio de salas para validar
+    private final SalaAtencionService salaAtencionService;
+    private final PacienteClient pacienteClient;
+    private final MedicoClient medicoClient;
 
     @Override
     public List<CitaResponseDTO> findAll() {
@@ -38,18 +43,16 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
 
     @Override
     public CitaResponseDTO create(CitaRequestDTO dto) {
+        validarExistenciaExterna(dto.getPacienteId(), dto.getMedicoId());
+
         CitaMedica citamedica = new CitaMedica();
-        
-        // Mapeo manual de campos básicos
         actualizarCamposBasicos(citamedica, dto);
 
-        // Validación y asignación de Sala
         if (dto.getSalaId() != null) {
             asignarSala(citamedica, dto.getSalaId());
         }
 
-        CitaMedica guardarCita = citaMedicaRepository.save(citamedica);
-        return CitaResponseDTO.fromEntity(guardarCita);
+        return CitaResponseDTO.fromEntity(citaMedicaRepository.save(citamedica));
     }
 
     @Override
@@ -57,14 +60,14 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
         CitaMedica cita = citaMedicaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cita no encontrada con ID: " + id));
     
+        validarExistenciaExterna(dto.getPacienteId(), dto.getMedicoId());
         actualizarCamposBasicos(cita, dto);
     
         if (dto.getSalaId() != null) {
             asignarSala(cita, dto.getSalaId());
         }
     
-        CitaMedica actualizada = citaMedicaRepository.save(cita);
-        return CitaResponseDTO.fromEntity(actualizada);
+        return CitaResponseDTO.fromEntity(citaMedicaRepository.save(cita));
     }
 
     @Override
@@ -75,7 +78,20 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
         citaMedicaRepository.deleteById(id);
     }
 
-    // Métodos privados para mantener el código limpio (Refactorización)
+    private void validarExistenciaExterna(Long pacienteId, Long medicoId) {
+        try {
+            pacienteClient.buscarPorId(pacienteId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error: El paciente con ID " + pacienteId + " no existe.");
+        }
+
+        try {
+            medicoClient.buscarPorId(medicoId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error: El médico con ID " + medicoId + " no existe.");
+        }
+    }
+
     private void actualizarCamposBasicos(CitaMedica cita, CitaRequestDTO dto) {
         cita.setPacienteId(dto.getPacienteId());
         cita.setMedicoId(dto.getMedicoId());
@@ -92,6 +108,6 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
         
         SalaAtencion sala = new SalaAtencion();
         sala.setId(salaId); 
-        cita.setSala(sala); // Se asigna el objeto completo a la relación @ManyToOne
+        cita.setSala(sala);
     }
 }

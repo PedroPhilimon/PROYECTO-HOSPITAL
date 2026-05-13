@@ -56,7 +56,7 @@ public class CitaMedica {
     
     
     @ManyToOne
-    @JoinColumn(name = "id_sala")
+    @JoinColumn(name = "sala_id")
     private SalaAtencion sala; 
 
 }
