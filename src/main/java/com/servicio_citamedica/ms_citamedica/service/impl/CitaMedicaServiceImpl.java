@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-
 import com.servicio_citamedica.ms_citamedica.dto.CitaRequestDTO;
 import com.servicio_citamedica.ms_citamedica.dto.CitaResponseDTO;
 import com.servicio_citamedica.ms_citamedica.model.CitaMedica;
 import com.servicio_citamedica.ms_citamedica.model.SalaAtencion;
 import com.servicio_citamedica.ms_citamedica.repository.CitaMedicaRepository;
 import com.servicio_citamedica.ms_citamedica.service.CitaMedicaService;
+import com.servicio_citamedica.ms_citamedica.service.SalaAtencionService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,9 +19,10 @@ import lombok.RequiredArgsConstructor;
 public class CitaMedicaServiceImpl implements CitaMedicaService {
     
     private final CitaMedicaRepository citaMedicaRepository;
+    private final SalaAtencionService salaAtencionService; // Inyectamos el servicio de salas para validar
 
     @Override
-    public List<CitaResponseDTO> findAll() { // <--- Aquí faltaba el '>'
+    public List<CitaResponseDTO> findAll() {
         return citaMedicaRepository.findAll()
                 .stream()
                 .map(CitaResponseDTO::fromEntity) 
@@ -36,65 +37,61 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
     }
 
     @Override
-        public CitaResponseDTO create(CitaRequestDTO dto) {
+    public CitaResponseDTO create(CitaRequestDTO dto) {
         CitaMedica citamedica = new CitaMedica();
+        
+        // Mapeo manual de campos básicos
+        actualizarCamposBasicos(citamedica, dto);
 
-        // Seteos básicos
-        citamedica.setPacienteId(dto.getPacienteId());
-        citamedica.setMedicoId(dto.getMedicoId());
-        citamedica.setFecha(dto.getFecha());
-        citamedica.setHora(dto.getHora());
-        citamedica.setEstado(dto.getEstado());
-        citamedica.setMotivo(dto.getMotivo());
-
-        // instancia de SalaAtencion y cambiarle el id
+        // Validación y asignación de Sala
         if (dto.getSalaId() != null) {
-            SalaAtencion sala = new SalaAtencion();
-            sala.setId(dto.getSalaId()); 
-            citamedica.setSala(sala);
+            asignarSala(citamedica, dto.getSalaId());
         }
 
         CitaMedica guardarCita = citaMedicaRepository.save(citamedica);
-
         return CitaResponseDTO.fromEntity(guardarCita);
     }
 
     @Override
     public CitaResponseDTO update(Long id, CitaRequestDTO dto) {
-        // 1. Buscamos la cita existente
         CitaMedica cita = citaMedicaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cita no encontrada con ID: " + id));
     
-        // 2. Actualizamos campos simples
-        cita.setPacienteId(dto.getPacienteId());
-        cita.setMedicoId(dto.getMedicoId());
-        cita.setFecha(dto.getFecha());
-        cita.setHora(dto.getHora());
-        cita.setEstado(dto.getEstado());
-        cita.setMotivo(dto.getMotivo());
+        actualizarCamposBasicos(cita, dto);
     
         if (dto.getSalaId() != null) {
-            // En lugar de pasar el Long directamente, creamos el objeto SalaAtencion
-            SalaAtencion sala = new SalaAtencion();
-            sala.setId(dto.getSalaId());
-            cita.setSala(sala); 
+            asignarSala(cita, dto.getSalaId());
         }
     
         CitaMedica actualizada = citaMedicaRepository.save(cita);
-    
         return CitaResponseDTO.fromEntity(actualizada);
     }
 
     @Override
     public void delete(Long id) {
         if (!citaMedicaRepository.existsById(id)) {
-            throw new RuntimeException("No se puede eliminar: Paciente no encontrado con ID: " + id);
+            throw new RuntimeException("No se puede eliminar: Cita no encontrada con ID: " + id);
         }   
-    
         citaMedicaRepository.deleteById(id);
     }
 
-    
+    // Métodos privados para mantener el código limpio (Refactorización)
+    private void actualizarCamposBasicos(CitaMedica cita, CitaRequestDTO dto) {
+        cita.setPacienteId(dto.getPacienteId());
+        cita.setMedicoId(dto.getMedicoId());
+        cita.setFecha(dto.getFecha());
+        cita.setHora(dto.getHora());
+        cita.setEstado(dto.getEstado());
+        cita.setMotivo(dto.getMotivo());
+    }
 
-
+    private void asignarSala(CitaMedica cita, Long salaId) {
+        if (!salaAtencionService.existsById(salaId)) {
+            throw new RuntimeException("Error: La sala con ID " + salaId + " no existe.");
+        }
+        
+        SalaAtencion sala = new SalaAtencion();
+        sala.setId(salaId); 
+        cita.setSala(sala); // Se asigna el objeto completo a la relación @ManyToOne
+    }
 }
