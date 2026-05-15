@@ -74,4 +74,16 @@ public class MovimientoServiceImpl implements MovimientoService {
                 .map(MovimientoResponseDTO::fromEntity)
                 .orElseThrow(() -> new RuntimeException("Movimiento no encontrado"));
     }
+
+    @Override
+    public MovimientoResponseDTO update(Long id, MovimientoRequestDTO dto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+    @Override
+    public void delete(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
 }
