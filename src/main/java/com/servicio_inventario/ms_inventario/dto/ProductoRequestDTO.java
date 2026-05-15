@@ -33,5 +33,5 @@ public class ProductoRequestDTO {
     private String categoria;
 
     @FutureOrPresent
-    private LocalDate fechaNacimiento;
+    private LocalDate fechaVencimiento;
 }
