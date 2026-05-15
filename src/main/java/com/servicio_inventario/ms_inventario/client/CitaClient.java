@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "ms-citamedica")
-public interface ProductoClient {
+public interface CitaClient {
 
     @GetMapping("api/citas/{id}")
     Object buscarPorId(@PathVariable("id") Long id);
