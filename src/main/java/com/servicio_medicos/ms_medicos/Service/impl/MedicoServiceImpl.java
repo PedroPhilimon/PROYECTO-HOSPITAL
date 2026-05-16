@@ -29,7 +29,6 @@ public class MedicoServiceImpl implements MedicoService {
         Especialidad especialidad = especialidadRepository.findById(dto.getEspecialidadId()) // Usando el ID del DTO para la especialidad
             .orElseThrow(() -> new RuntimeException("La especialidad no existe"));
 
-        // Lógica: Mapear DTO a Entidad
         Medico medico = new Medico();
         medico.setNombre(dto.getNombre());
         medico.setApellido(dto.getApellido());
@@ -65,7 +64,6 @@ public class MedicoServiceImpl implements MedicoService {
         Especialidad especialidad = especialidadRepository.findById(dto.getEspecialidadId())
             .orElseThrow(() -> new RuntimeException("La especialidad no existe"));
 
-        // Actualizar campos
         medicoExistente.setNombre(dto.getNombre());
         medicoExistente.setApellido(dto.getApellido());
         medicoExistente.setEmail(dto.getEmail());
