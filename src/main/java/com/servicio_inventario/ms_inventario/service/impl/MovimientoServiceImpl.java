@@ -76,14 +76,45 @@ public class MovimientoServiceImpl implements MovimientoService {
     }
 
     @Override
+    @Transactional
     public MovimientoResponseDTO update(Long id, MovimientoRequestDTO dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        MovimientoInventario movimiento = movimientoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Movimiento no encontrado para actualizar"));
+        
+        movimiento.setTipoMovimiento(dto.getTipoMovimiento());
+        movimiento.setCantidad(dto.getCantidad());
+        movimiento.setCitaId(dto.getCitaId());
+        
+        return MovimientoResponseDTO.fromEntity(movimientoRepository.save(movimiento));
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        if (!movimientoRepository.existsById(id)) {
+            throw new RuntimeException("No se puede eliminar: movimiento no encontrado");
+        }
+        movimientoRepository.deleteById(id);
+    }
+
+    private void validarCita(Long citaId) {
+        if (citaId != null) {
+            try {
+                citaClient.buscarPorId(citaId);
+            } catch (Exception e) {
+                throw new RuntimeException("Error: La cita con ID " + citaId + " no existe.");
+            }
+        }
+    }
+
+    private void actualizarStock(Producto producto, String tipo, Integer cantidad) {
+        if ("SALIDA".equalsIgnoreCase(tipo)) {
+            if (producto.getStock() < cantidad) {
+                throw new RuntimeException("Stock insuficiente");
+            }
+            producto.setStock(producto.getStock() - cantidad);
+        } else {
+            producto.setStock(producto.getStock() + cantidad);
+        }
     }
 }
