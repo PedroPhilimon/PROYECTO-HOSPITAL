@@ -31,7 +31,7 @@ public class DetalleFactura {
 
     @NotBlank(message = "La descripción no puede estar vacía")
     private String descripcion;
-    @NotBlank(message = "La descripción no puede estar vacía")
+
     private Integer cantidad;
     
     @PositiveOrZero(message = "el precio unitario debe ser positivo o 0")
