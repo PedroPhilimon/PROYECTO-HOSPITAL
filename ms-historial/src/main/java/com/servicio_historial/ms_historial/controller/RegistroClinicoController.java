@@ -1,8 +1,8 @@
 package com.servicio_historial.ms_historial.controller;
 
-import com.servicio_historial.ms_historial.dto.HistorialClinicoRequestDTO;
-import com.servicio_historial.ms_historial.dto.HistorialClinicoResponseDTO;
-import com.servicio_historial.ms_historial.service.HistorialClinicoService;
+import com.servicio_historial.ms_historial.dto.RegistroClinicoRequestDTO;
+import com.servicio_historial.ms_historial.dto.RegistroClinicoResponseDTO;
+import com.servicio_historial.ms_historial.service.RegistroClinicoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,27 +11,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/historiales")
-@RequiredArgsConstructor
-public class HistorialClinicoController {
+@RequestMapping("/api/registros")
+@RequiredArgsConstructor 
+public class RegistroClinicoController {
 
-    private final HistorialClinicoService service;
+    private final RegistroClinicoService service;
 
     @GetMapping
-    public List<HistorialClinicoResponseDTO> obtenerTodos() {
+    public List<RegistroClinicoResponseDTO> obtenerTodos() {
         return service.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HistorialClinicoResponseDTO> obtenerPorId(@PathVariable Long id) {
+    public ResponseEntity<RegistroClinicoResponseDTO> obtenerPorId(@PathVariable Long id) {
         return service.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<HistorialClinicoResponseDTO> crear(@Valid @RequestBody HistorialClinicoRequestDTO dto) {
-        HistorialClinicoResponseDTO creado = service.guardar(dto);
+    public ResponseEntity<RegistroClinicoResponseDTO> crear(@Valid @RequestBody RegistroClinicoRequestDTO dto) {
+        RegistroClinicoResponseDTO creado = service.guardar(dto);
         return ResponseEntity.ok(creado);
     }
 
