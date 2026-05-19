@@ -1,4 +1,7 @@
+--liquibase formatted sql
 
+
+--changeset pedro:1
 CREATE TABLE agendas_medicos (
     id_agenda BIGINT AUTO_INCREMENT PRIMARY KEY,
     id_medico BIGINT NOT NULL,
@@ -7,6 +10,7 @@ CREATE TABLE agendas_medicos (
     estado VARCHAR(50) NOT NULL
 );
 
+--changeset pedro:2
 CREATE TABLE asignaciones_salas (
     id_asignacion BIGINT AUTO_INCREMENT PRIMARY KEY,
     id_sala BIGINT NOT NULL,
