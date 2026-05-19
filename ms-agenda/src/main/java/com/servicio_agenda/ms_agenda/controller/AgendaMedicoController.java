@@ -1,47 +1,47 @@
 package com.servicio_agenda.ms_agenda.controller;
+import java.util.List;
+import java.util.Optional;
 
-import com.servicio_agenda.ms_agenda.dto.AgendaMedicoDTO;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.http.HttpStatus;
+import com.servicio_agenda.ms_agenda.dto.AgendaMedicoRequestDTO;
+import com.servicio_agenda.ms_agenda.dto.AgendaMedicoResponseDTO;
 import com.servicio_agenda.ms_agenda.model.AgendaMedico;
 import com.servicio_agenda.ms_agenda.service.AgendaMedicoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/agendas")
 public class AgendaMedicoController {
 
-    @Autowired
-    private AgendaMedicoService service;
+    private final AgendaMedicoService  agendaMedicoService;
+
+    public AgendaMedicoController(AgendaMedicoService agendaMedicoService) {
+        this.agendaMedicoService = agendaMedicoService;
+    }
 
     @GetMapping
-    public List<AgendaMedico> obtenerTodas() {
-        return service.listarTodas();
+    public ResponseEntity<List<AgendaMedico>> listarTodas() {
+        List<AgendaMedico> agendas = agendaMedicoService.listarTodas();
+        return ResponseEntity.ok(agendas);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AgendaMedico> obtenerPorId(@PathVariable Long id) {
-        return service.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Optional<AgendaMedico>> obtenerPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(agendaMedicoService.buscarPorId(id));
     }
 
     @PostMapping
-    public AgendaMedico crear(@RequestBody AgendaMedicoDTO dto) {
-        AgendaMedico agenda = new AgendaMedico();
-        agenda.setIdMedico(dto.getIdMedico());
-        agenda.setFechaHoraInicio(dto.getFechaHoraInicio());
-        agenda.setFechaHoraFin(dto.getFechaHoraFin());
-        agenda.setEstado(dto.getEstado());
-        
-        return service.guardar(agenda);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        service.eliminar(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<AgendaMedicoResponseDTO> crearAgenda(@Valid @RequestBody AgendaMedico dto) {
+        AgendaMedicoResponseDTO crearAgenda = agendaMedicoService.guardar(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(crearAgenda);
     }
 }

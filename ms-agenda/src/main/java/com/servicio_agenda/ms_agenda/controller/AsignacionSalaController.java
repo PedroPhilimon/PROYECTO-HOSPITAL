@@ -1,57 +1,48 @@
 package com.servicio_agenda.ms_agenda.controller;
 
-import com.servicio_agenda.ms_agenda.dto.AsignacionSalaDTO;
-import com.servicio_agenda.ms_agenda.model.AgendaMedico;
+import com.servicio_agenda.ms_agenda.dto.AsignacionSalaRequestDTO;
+import com.servicio_agenda.ms_agenda.dto.AsignacionSalaResponseDTO;
 import com.servicio_agenda.ms_agenda.model.AsignacionSala;
-import com.servicio_agenda.ms_agenda.service.AgendaMedicoService;
 import com.servicio_agenda.ms_agenda.service.AsignacionSalaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/asignaciones-salas")
 public class AsignacionSalaController {
 
-    @Autowired
-    private AsignacionSalaService service;
+    private final AsignacionSalaService asignacionSalaService;
 
-    @Autowired
-    private AgendaMedicoService agendaService;
+    public AsignacionSalaController(AsignacionSalaService asignacionSalaService) {
+        this.asignacionSalaService = asignacionSalaService;
+    }
 
     @GetMapping
-    public List<AsignacionSala> obtenerTodas() {
-        return service.listarTodas();
+    public ResponseEntity<List<AsignacionSala>> listarTodas() {
+        List<AsignacionSala> asignaciones = asignacionSalaService.listarTodas();
+        return ResponseEntity.ok(asignaciones);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AsignacionSala> obtenerPorId(@PathVariable Long id) {
-        return service.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Optional<AsignacionSala>> obtenerPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(asignacionSalaService.buscarPorId(id));
     }
 
     @PostMapping
-    public ResponseEntity<AsignacionSala> crear(@RequestBody AsignacionSalaDTO dto) {
-        java.util.Optional<AgendaMedico> agendaOpt = agendaService.buscarPorId(dto.getIdAgenda());
-        
-        if (agendaOpt.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        AsignacionSala asignacion = new AsignacionSala();
-        asignacion.setIdSala(dto.getIdSala());
-        asignacion.setMotivoBloqueo(dto.getMotivoBloqueo());
-        asignacion.setAgendaMedico(agendaOpt.get());
-        
-        return ResponseEntity.ok(service.guardar(asignacion));
+    public ResponseEntity<AsignacionSalaResponseDTO> crearAsignacionSala(@Valid @RequestBody AsignacionSalaRequestDTO dto, @RequestParam Long idAgenda) {
+        // Mantiene exactamente la misma sintaxis de asignación directa que AgendaMedicoController
+        AsignacionSalaResponseDTO crearAsignacionSala = asignacionSalaService.guardar(dto, idAgenda);
+        return ResponseEntity.status(HttpStatus.CREATED).body(crearAsignacionSala);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        service.eliminar(id);
+        asignacionSalaService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,6 +1,7 @@
 package com.servicio_agenda.ms_agenda.service.impl;
 
 import com.servicio_agenda.ms_agenda.client.MedicoClient;
+import com.servicio_agenda.ms_agenda.dto.AgendaMedicoResponseDTO;
 import com.servicio_agenda.ms_agenda.model.AgendaMedico;
 import com.servicio_agenda.ms_agenda.repository.AgendaMedicoRepository;
 import com.servicio_agenda.ms_agenda.service.AgendaMedicoService;
@@ -33,16 +34,18 @@ public class AgendaMedicoServiceimpl implements AgendaMedicoService {
 
     @Override
     @Transactional
-    public AgendaMedico guardar(AgendaMedico agenda) {
+    public AgendaMedicoResponseDTO guardar(AgendaMedico agenda) {
         try {
             ResponseEntity<Object> respuestaMedico = medicoClient.obtenerMedicoPorId(agenda.getIdMedico());
             if (respuestaMedico.getStatusCode().isError() || respuestaMedico.getBody() == null) {
-                throw new RuntimeException("El médico con ID " + agenda.getIdMedico() + " no fue encontrado.");
+                throw new RuntimeException("El médico con ID " + agenda.getIdMedico() + " no existe en el sistema.");
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error de comunicación con el microservicio de médicos: " + e.getMessage());
+            throw new RuntimeException("Error al validar el médico. El microservicio no responde: " + e.getMessage());
         }
-        return repository.save(agenda);
+        
+        AgendaMedico entidadGuardada = repository.save(agenda);
+        return AgendaMedicoResponseDTO.fromEntity(entidadGuardada);
     }
 
     @Override
