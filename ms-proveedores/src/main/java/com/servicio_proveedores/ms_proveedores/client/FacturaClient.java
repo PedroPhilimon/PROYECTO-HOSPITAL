@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "ms-facturacion", url = "http://localhost:8089/api/facturas")
+@FeignClient(name = "ms-facturacion", url = "http://localhost:8085/api/facturas")
 public interface FacturaClient {
 
 
