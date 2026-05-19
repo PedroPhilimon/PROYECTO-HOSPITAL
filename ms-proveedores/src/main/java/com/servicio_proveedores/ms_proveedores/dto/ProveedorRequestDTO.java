@@ -1,11 +1,15 @@
 package com.servicio_proveedores.ms_proveedores.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProveedorRequestDTO {
     @NotBlank(message = "el rut no puede estar vacío")
     private String rut;
