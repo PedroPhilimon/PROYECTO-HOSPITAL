@@ -35,7 +35,6 @@ public class AsignacionSalaController {
 
     @PostMapping
     public ResponseEntity<AsignacionSalaResponseDTO> crearAsignacionSala(@Valid @RequestBody AsignacionSalaRequestDTO dto, @RequestParam Long idAgenda) {
-        // Mantiene exactamente la misma sintaxis de asignación directa que AgendaMedicoController
         AsignacionSalaResponseDTO crearAsignacionSala = asignacionSalaService.guardar(dto, idAgenda);
         return ResponseEntity.status(HttpStatus.CREATED).body(crearAsignacionSala);
     }
