@@ -6,11 +6,15 @@ import com.servicio_proveedores.ms_proveedores.model.Proveedor;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrdenCompraRequestDTO {
     private Long idOrden;
 
