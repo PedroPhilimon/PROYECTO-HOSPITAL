@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,5 +43,11 @@ public class AgendaMedicoController {
     public ResponseEntity<AgendaMedicoResponseDTO> crearAgenda(@Valid @RequestBody AgendaMedico dto) {
         AgendaMedicoResponseDTO crearAgenda = agendaMedicoService.guardar(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(crearAgenda);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        agendaMedicoService.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 }
