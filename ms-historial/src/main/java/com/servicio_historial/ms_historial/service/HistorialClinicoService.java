@@ -1,32 +1,20 @@
 package com.servicio_historial.ms_historial.service;
 
-import com.servicio_historial.ms_historial.model.HistorialClinico;
-import com.servicio_historial.ms_historial.repository.HistorialClinicoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class HistorialClinicoService {
+import com.servicio_historial.ms_historial.dto.HistorialClinicoRequestDTO;
+import com.servicio_historial.ms_historial.dto.HistorialClinicoResponseDTO;
 
-    @Autowired
-    private HistorialClinicoRepository repository;
+public interface HistorialClinicoService {
 
-    public List<HistorialClinico> listarTodos() {
-        return repository.findAll();
-    }
+    List<HistorialClinicoResponseDTO> listarTodos();
 
-    public Optional<HistorialClinico> buscarPorId(Long id) {
-        return repository.findById(id);
-    }
+    Optional<HistorialClinicoResponseDTO> buscarPorId(Long id);
 
-    public HistorialClinico guardar(HistorialClinico historial) {
-        return repository.save(historial);
-    }
+    HistorialClinicoResponseDTO guardar(HistorialClinicoRequestDTO dto);
 
-    public void eliminar(Long id) {
-        repository.deleteById(id);
-    }
-}
+    void eliminar(Long id);
+
+    
+} 
