@@ -1,4 +1,6 @@
+--liquibase formatted sql
 
+--changeset pedro:1
 CREATE TABLE proveedores (
     id_proveedor BIGINT AUTO_INCREMENT PRIMARY KEY,
     rut VARCHAR(12) NOT NULL,
@@ -9,6 +11,7 @@ CREATE TABLE proveedores (
     direccion VARCHAR(255)
 );
 
+--changeset pedro:2
 CREATE TABLE ordenes_compra (
     id_orden BIGINT AUTO_INCREMENT PRIMARY KEY,
     id_item_inventario BIGINT NOT NULL,
