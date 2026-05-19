@@ -12,35 +12,31 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AsignacionSalaServiceImpl implements AsignacionSalaService {
+public class AsignacionSalaServiceimpl implements AsignacionSalaService {
 
     private final AsignacionSalaRepository repository;
 
-    /
-    
-@Override
-@Transactional(readOnly = true)
-  public List<AsignacionSala> listarTodas() {
-      return repository.findAll();}
+    @Override
+    @Transactional(readOnly = true)
+    public List<AsignacionSala> listarTodas() {
+        return repository.findAll();
+    }
 
-    /
-     
-@Override
-@Transactional(readOnly = true)
-  public Optional<AsignacionSala> buscarPorId(Long id) {
-      return repository.findById(id);}
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<AsignacionSala> buscarPorId(Long id) {
+        return repository.findById(id);
+    }
 
-    /
-     
-@Override
-@Transactional
-  public AsignacionSala guardar(AsignacionSala asignacion) {
-      return repository.save(asignacion);}
+    @Override
+    @Transactional
+    public AsignacionSala guardar(AsignacionSala asignacion) {
+        return repository.save(asignacion);
+    }
 
-    /
-     
-@Override
-@Transactional
-  public void eliminar(Long id) {
-      repository.deleteById(id);}
+    @Override
+    @Transactional
+    public void eliminar(Long id) {
+        repository.deleteById(id);
+    }
 }

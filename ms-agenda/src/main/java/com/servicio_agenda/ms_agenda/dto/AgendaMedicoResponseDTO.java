@@ -18,6 +18,7 @@ public class AgendaMedicoResponseDTO {
         dto.setIdMedico(agenda.getIdMedico());
         dto.setFechaHoraInicio(agenda.getFechaHoraInicio());
         dto.setFechaHoraFin(agenda.getFechaHoraFin());
+        dto.setEstado(agenda.getEstado()); 
         return dto;
     }
 
