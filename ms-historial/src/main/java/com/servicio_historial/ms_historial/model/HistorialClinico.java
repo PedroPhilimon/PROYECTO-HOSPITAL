@@ -22,6 +22,7 @@ public class HistorialClinico {
     private Long idPaciente;
     @NotNull(message = "El id del médico no puede ser nulo")
     private Long idMedico;
+    
     private LocalDateTime fechaAtencion;
 
     @NotBlank(message = "El diagnóstico no puede estar vacío")
