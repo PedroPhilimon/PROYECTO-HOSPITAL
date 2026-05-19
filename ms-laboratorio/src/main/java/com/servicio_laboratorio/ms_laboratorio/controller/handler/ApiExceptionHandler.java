@@ -25,7 +25,7 @@ public class ApiExceptionHandler {
                         )
                 );
 
-        logger.error("Errores de validación en ms-laboratorio: {}", errors);
+        logger.error("Errores de validación en ms-proveedores: {}", errors);
 
         return ResponseEntity.badRequest().body(errors);
     }
@@ -35,7 +35,7 @@ public class ApiExceptionHandler {
         Map<String, String> errors = new HashMap<>();
         errors.put("message", ex.getMessage());
 
-        logger.error("Error en ms-laboratorio: {}", ex.getMessage());
+        logger.error("Error en ms-proveedores: {}", ex.getMessage());
 
         return ResponseEntity.badRequest().body(errors);
     }
