@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.servicio_inventario.ms_inventario.dto.ProductoRequestDTO;
@@ -35,6 +36,15 @@ public class ProductoController {
         List<ProductoResponseDTO> citasMedicas = productoService.findAll();
         return ResponseEntity.ok(citasMedicas);
     }
+
+
+    @GetMapping("/{id}/validar-stock")
+    public ResponseEntity<Boolean> validarStock(@PathVariable Long id, @RequestParam Integer cantidad) {
+        boolean tieneStock = true; 
+                
+        return ResponseEntity.ok(tieneStock);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductoResponseDTO> obtenerPorId(@PathVariable Long id) {
