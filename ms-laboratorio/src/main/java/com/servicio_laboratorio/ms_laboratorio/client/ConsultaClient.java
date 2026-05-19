@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "ms-consultas", url = "http://localhost:8087/api/consultas")
 public interface ConsultaClient {
 
-    @GetMapping("/api/consultas/{id}")
+    @GetMapping("/{id}")
     Object buscarPorId(@PathVariable("id") Long id);
 }
