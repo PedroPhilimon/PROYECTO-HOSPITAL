@@ -1,5 +1,6 @@
 package com.servicio_laboratorio.ms_laboratorio.model;
 
+import jakarta.persistence.Column; // Asegúrate de importar esto
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class ExamenLaboratorio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "orden_id", insertable = false, updatable = false)
     private Long ordenId;
 
     private String nombreExamen;
