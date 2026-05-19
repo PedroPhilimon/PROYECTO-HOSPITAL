@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.http.HttpStatus;
-import com.servicio_agenda.ms_agenda.dto.AgendaMedicoRequestDTO;
 import com.servicio_agenda.ms_agenda.dto.AgendaMedicoResponseDTO;
 import com.servicio_agenda.ms_agenda.model.AgendaMedico;
 import com.servicio_agenda.ms_agenda.service.AgendaMedicoService;
