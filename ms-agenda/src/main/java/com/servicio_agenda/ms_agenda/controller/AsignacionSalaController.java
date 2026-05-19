@@ -34,8 +34,8 @@ public class AsignacionSalaController {
     }
 
     @PostMapping
-    public ResponseEntity<AsignacionSalaResponseDTO> crearAsignacionSala(@Valid @RequestBody AsignacionSalaRequestDTO dto, @RequestParam Long idAgenda) {
-        AsignacionSalaResponseDTO crearAsignacionSala = asignacionSalaService.guardar(dto, idAgenda);
+    public ResponseEntity<AsignacionSalaResponseDTO> crearAsignacionSala(@Valid @RequestBody AsignacionSalaRequestDTO dto) {
+        AsignacionSalaResponseDTO crearAsignacionSala = asignacionSalaService.guardar(dto, dto.getIdAsignacion());
         return ResponseEntity.status(HttpStatus.CREATED).body(crearAsignacionSala);
     }
 
