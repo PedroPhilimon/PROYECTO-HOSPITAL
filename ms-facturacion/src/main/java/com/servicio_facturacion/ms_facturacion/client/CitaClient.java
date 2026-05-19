@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "ms-citamedica", url = "http://localhost:8082")
 public interface CitaClient {
 
-    @GetMapping("/api/citamedica/{id}")
+    @GetMapping("/api/citas/{id}")
     Object buscarPorId(@PathVariable("id") Long id);
 }
