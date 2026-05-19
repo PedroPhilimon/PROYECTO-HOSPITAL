@@ -5,6 +5,7 @@ import com.servicio_proveedores.ms_proveedores.client.InventarioClient;
 import com.servicio_proveedores.ms_proveedores.dto.OrdenCompraResponseDTO;
 import com.servicio_proveedores.ms_proveedores.model.OrdenCompra;
 import com.servicio_proveedores.ms_proveedores.repository.OrdenCompraRepository;
+import com.servicio_proveedores.ms_proveedores.service.OrdenCompraService; // <--- Importamos la Interfaz
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,27 +16,27 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class OrdenCompraServiceImpl {
+public class OrdenCompraServiceImpl implements OrdenCompraService {
 
     private final OrdenCompraRepository repository;
     private final InventarioClient inventarioClient;
     private final FacturaClient facturaClient;
 
-
-    @Transactional(readOnly = true)
+    @Override
+    @Transactional
     public List<OrdenCompra> listarTodas() {
         return repository.findAll();
     }
 
-    @Transactional(readOnly = true)
+    @Override
+    @Transactional
     public Optional<OrdenCompra> buscarPorId(Long id) {
         return repository.findById(id);
     }
 
+    @Override
     @Transactional
-    @SuppressWarnings("null")
     public OrdenCompra guardar(OrdenCompra orden) {
-
         ResponseEntity<Boolean> respuestaStock = inventarioClient.validarStock(
                 orden.getIdItemInventario(), 
                 orden.getCantidadPedida()
@@ -55,6 +56,7 @@ public class OrdenCompraServiceImpl {
         return ordenGuardada;
     }
 
+    @Override
     @Transactional
     public void eliminar(Long id) {
         repository.deleteById(id);
@@ -64,7 +66,7 @@ public class OrdenCompraServiceImpl {
         try {
             OrdenCompraResponseDTO dto = OrdenCompraResponseDTO.fromEntity(orden);
             facturaClient.generarFacturaDeOrden(dto);
-
+        } catch (Exception e) { 
             System.err.println("Error al intentar facturar la orden de compra automáticamente: " + e.getMessage());
         }
     }

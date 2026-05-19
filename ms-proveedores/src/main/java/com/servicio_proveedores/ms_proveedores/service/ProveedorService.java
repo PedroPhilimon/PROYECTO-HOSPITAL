@@ -1,32 +1,18 @@
 package com.servicio_proveedores.ms_proveedores.service;
 
-import com.servicio_proveedores.ms_proveedores.model.Proveedor;
-import com.servicio_proveedores.ms_proveedores.repository.ProveedorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class ProveedorService {
+import com.servicio_proveedores.ms_proveedores.model.Proveedor;
 
-    @Autowired
-    private ProveedorRepository repository;
+public interface ProveedorService {
 
-    public List<Proveedor> listarTodos() {
-        return repository.findAll();
-    }
+    List<Proveedor> listarTodos();
 
-    public Optional<Proveedor> buscarPorId(Long id) {
-        return repository.findById(id);
-    }
+    Optional<Proveedor> buscarPorId(Long id);
 
-    public Proveedor guardar(Proveedor proveedor) {
-        return repository.save(proveedor);
-    }
+    Proveedor guardar(Proveedor proveedor);
 
-    public void eliminar(Long id) {
-        repository.deleteById(id);
-    }
-}
+    void eliminar(Long id);
+
+} 

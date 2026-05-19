@@ -5,7 +5,6 @@ import com.servicio_proveedores.ms_proveedores.dto.OrdenCompraResponseDTO;
 import com.servicio_proveedores.ms_proveedores.model.OrdenCompra;
 import com.servicio_proveedores.ms_proveedores.model.Proveedor;
 import com.servicio_proveedores.ms_proveedores.service.impl.OrdenCompraServiceImpl;
-import com.servicio_proveedores.ms_proveedores.service.impl.ProveedorServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
