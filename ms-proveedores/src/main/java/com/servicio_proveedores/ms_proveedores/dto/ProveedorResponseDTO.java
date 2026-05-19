@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class ProveedorResponseDTO {
+    private Long idProveedor;
     private String rut;
     private String nombre;
     private String contacto;
@@ -22,6 +23,7 @@ public class ProveedorResponseDTO {
         dto.setTelefono(proveedor.getTelefono());
         dto.setEmail(proveedor.getEmail());
         dto.setDireccion(proveedor.getDireccion());
+        dto.setIdProveedor(proveedor.getIdProveedor());
         return dto;
     }
 }
