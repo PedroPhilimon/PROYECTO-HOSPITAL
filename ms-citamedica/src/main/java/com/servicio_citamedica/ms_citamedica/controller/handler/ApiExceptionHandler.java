@@ -35,8 +35,8 @@ public class ApiExceptionHandler {
         Map<String, String> errors = new HashMap<>();
         errors.put("message", ex.getMessage());
 
-        logger.error("Error en ms-citamedica: {}", ex.getMessage());
-
+        logger.error("Error crítico detectado en ms-citamedica: ", ex);
+        
         return ResponseEntity.badRequest().body(errors);
     }
 
