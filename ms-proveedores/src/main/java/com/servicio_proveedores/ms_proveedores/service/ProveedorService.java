@@ -1,18 +1,13 @@
 package com.servicio_proveedores.ms_proveedores.service;
 
+import com.servicio_proveedores.ms_proveedores.dto.ProveedorRequestDTO;
+import com.servicio_proveedores.ms_proveedores.dto.ProveedorResponseDTO;
 import java.util.List;
-import java.util.Optional;
-
-import com.servicio_proveedores.ms_proveedores.model.Proveedor;
 
 public interface ProveedorService {
-
-    List<Proveedor> listarTodos();
-
-    Optional<Proveedor> buscarPorId(Long id);
-
-    Proveedor guardar(Proveedor proveedor);
-
+    List<ProveedorResponseDTO> listarTodos();
+    ProveedorResponseDTO buscarPorId(Long id);
+    ProveedorResponseDTO guardar(ProveedorRequestDTO dto);
+    ProveedorResponseDTO actualizar(Long id, ProveedorRequestDTO dto);
     void eliminar(Long id);
-
-} 
+}

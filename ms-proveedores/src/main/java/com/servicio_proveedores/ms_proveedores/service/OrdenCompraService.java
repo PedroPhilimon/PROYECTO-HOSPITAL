@@ -1,17 +1,13 @@
 package com.servicio_proveedores.ms_proveedores.service;
 
+import com.servicio_proveedores.ms_proveedores.dto.OrdenCompraRequestDTO;
+import com.servicio_proveedores.ms_proveedores.dto.OrdenCompraResponseDTO;
 import java.util.List;
-import java.util.Optional;
-
-import com.servicio_proveedores.ms_proveedores.model.OrdenCompra;
 
 public interface OrdenCompraService {
-
-    List<OrdenCompra> listarTodas();
-
-    Optional<OrdenCompra> buscarPorId(Long id);
-
-    OrdenCompra guardar(OrdenCompra orden);
-
-    
-} 
+    List<OrdenCompraResponseDTO> listarTodas();
+    OrdenCompraResponseDTO buscarPorId(Long id);
+    OrdenCompraResponseDTO guardar(OrdenCompraRequestDTO dto);
+    OrdenCompraResponseDTO actualizar(Long id, OrdenCompraRequestDTO dto);
+    void eliminar(Long id);
+}

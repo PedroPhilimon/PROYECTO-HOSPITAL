@@ -2,61 +2,51 @@ package com.servicio_proveedores.ms_proveedores.controller;
 
 import com.servicio_proveedores.ms_proveedores.dto.ProveedorRequestDTO;
 import com.servicio_proveedores.ms_proveedores.dto.ProveedorResponseDTO;
-import com.servicio_proveedores.ms_proveedores.model.Proveedor;
-import com.servicio_proveedores.ms_proveedores.service.impl.ProveedorServiceImpl;
+import com.servicio_proveedores.ms_proveedores.service.ProveedorService;
+
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/proveedores")
-@RequiredArgsConstructor
 public class ProveedorController {
 
-    private final ProveedorServiceImpl proveedorService;
+    private final ProveedorService proveedorService;
+
+    public ProveedorController(ProveedorService proveedorService) {
+        this.proveedorService = proveedorService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<ProveedorResponseDTO>> obtenerTodos() {
-        List<ProveedorResponseDTO> proveedores = proveedorService.listarTodos().stream()
-                .map(ProveedorResponseDTO::fromEntity)
-                .collect(Collectors.toList());
+    public ResponseEntity<List<ProveedorResponseDTO>> findAll() {
+        List<ProveedorResponseDTO> proveedores = proveedorService.listarTodos();
         return ResponseEntity.ok(proveedores);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProveedorResponseDTO> obtenerPorId(@PathVariable Long id) {
-        return proveedorService.buscarPorId(id)
-                .map(ProveedorResponseDTO::fromEntity)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(proveedorService.buscarPorId(id));
     }
 
     @PostMapping
-    public ResponseEntity<ProveedorResponseDTO> crear(@Valid @RequestBody ProveedorRequestDTO dto) {
-        Proveedor proveedor = new Proveedor();
-        proveedor.setRut(dto.getRut());
-        proveedor.setNombre(dto.getNombre());
-        proveedor.setContacto(dto.getContacto());
-        proveedor.setTelefono(dto.getTelefono());
-        proveedor.setEmail(dto.getEmail());
-        proveedor.setDireccion(dto.getDireccion());
+    public ResponseEntity<ProveedorResponseDTO> create(@Valid @RequestBody ProveedorRequestDTO dto) {
+        ProveedorResponseDTO crearProveedor = proveedorService.guardar(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(crearProveedor);
+    }
 
-        Proveedor guardado = proveedorService.guardar(proveedor);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ProveedorResponseDTO.fromEntity(guardado));
+    @PutMapping("/{id}")
+    public ResponseEntity<ProveedorResponseDTO> update(@PathVariable Long id, @Valid @RequestBody ProveedorRequestDTO dto) {
+        ProveedorResponseDTO actualizarProveedor = proveedorService.actualizar(id, dto);
+        return ResponseEntity.ok(actualizarProveedor);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        return proveedorService.buscarPorId(id)
-                .map(p -> {
-                    proveedorService.eliminar(id);
-                    return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        proveedorService.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 }
