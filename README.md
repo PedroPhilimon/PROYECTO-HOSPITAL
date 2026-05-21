@@ -1,19 +1,24 @@
-# Proyecto Hospital - Sistema Centralizado de Microservicios
+# Proyecto Hospital - Sistema de Microservicios
 
-Este repositorio contiene la arquitectura backend del **Proyecto Hospital**, un sistema modular desacoplado y escalable diseñado para la gestión integral de un centro médico de alta complejidad. El ecosistema está desarrollado completamente sobre **Java con Spring Boot** y estructurado bajo el patrón arquitectónico **Controller-Service-Repository**.
+**Desarrollado por:**
+- Pedro Philimon
+- Evan Marquez
+
+Este repositorio contiene la arquitectura backend del Proyecto Hospital, un sistema escalable diseñado para la gestión integral de un centro médico. El ecosistema está desarrollado completamente sobre Java con Spring Boot y estructurado bajo el patrón arquitectónico Controller-Service-Repository.
 
 ---
 
-## 🛠️ Tecnologías y Herramientas Comunes
+## Tecnologías y Herramientas Comunes
 
 A nivel global, todos los módulos de la solución comparten el siguiente stack tecnológico:
 * **Lenguaje:** Java 21.
-* **Framework:** Spring Boot (Spring Web, Spring Data JPA, Lombok, validation, OpenFeign MysqlDriver).
+* **Framework:** Spring Boot (Spring Web, Spring Data JPA, Lombok, Validation, OpenFeign, MySQL Driver).
 * **Gestión de Base de Datos:** MySQL Server.
-* **Control de Versiones de Base de Datos:** Liquibase (ejecutando migraciones estructuradas a través de `db.changelog.sql`).
+* **Control de Versiones de Base de Datos:** Liquibase (ejecutando migraciones estructuradas a través de db.changelog.sql).
+
 ---
 
-## ⚙️ Catálogo Específico de Microservicios
+## Catálogo Específico de Microservicios
 
 El ecosistema se compone de los siguientes 10 microservicios individuales. Cada uno de ellos administra su propio esquema de base de datos aislado de manera independiente:
 
@@ -32,21 +37,21 @@ El ecosistema se compone de los siguientes 10 microservicios individuales. Cada 
 
 ---
 
-## 📋 Requisitos Previos
+## Requisitos Previos
 
 Antes de proceder con el levantamiento del ecosistema de manera local, asegúrate de contar con los siguientes elementos instalados y configurados:
 1. **Java Development Kit (JDK):** Versión 21, configurada en tus variables de entorno.
-2. **Apache Maven:** Herramientas de construcción de proyectos (o el wrapper `mvnw` incluido en cada módulo).
-3. **Servidor MySQL:** Corriendo de manera nativa o mediante contenedor en el puerto predeterminado `3306`.
-    * *Nota:* Asegúrate de crear de forma manual las 10 bases de datos listadas en el catálogo (`db_pacientes`, `db_medicos`, etc.) antes de inicializar las aplicaciones para que Liquibase pueda inyectar las tablas automáticamente.
-4. **Servidor de Descubrimiento (Opcional):** Un servidor de Eureka Server corriendo en el puerto `8761`. *(Actualmente los microservicios tienen desactivado el registro automático mediante la propiedad `eureka.client.enabled=false` para facilitar pruebas unitarias aisladas).*
+2. **Apache Maven:** Herramienta de construcción de proyectos (o el wrapper mvnw incluido en cada módulo).
+3. **Servidor MySQL:** Corriendo de manera nativa o mediante contenedor en el puerto predeterminado 3306.
 
 ---
 
-## 🚀 Guía de Instalación y Despliegue Local
+## Pasos para Ejecutar y Probar el Proyecto
 
-### 1. Clonar el Repositorio
+### 1. Preparación de la Base de Datos
+Asegúrate de tener tu servidor MySQL en ejecución. Antes de levantar las aplicaciones, debes crear de forma manual las 10 bases de datos (por ejemplo: `CREATE DATABASE db_pacientes;`, `CREATE DATABASE db_medicos;`, etc.).
+
+### 2. Clonación del Repositorio
 Abre tu terminal y clona el proyecto en tu entorno de desarrollo:
 ```bash
-git clone [https://github.com/PedroPhilimon/PROYECTO-HOSPITAL.git](https://github.com/PedroPhilimon/PROYECTO-HOSPITAL.git)
-cd PROYECTO-HOSPITAL
+git clone https://github.com/PedroPhilimon/PROYECTO-HOSPITAL.git
