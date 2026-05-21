@@ -43,30 +43,4 @@ public class FacturaController {
         return ResponseEntity.noContent().build();
     }
 
-    //DetalleFactura
-
-    @PostMapping("/{facturaId}/detalles")
-    public ResponseEntity<Void> agregarDetalle(
-            @PathVariable Long facturaId,
-            @Valid @RequestBody DetalleFactura detalleFactura) {
-        
-        detalleFacturaService.agregarDetalle(facturaId, detalleFactura);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @GetMapping("/{facturaId}/detalles")
-    public ResponseEntity<List<DetalleResponseDTO>> obtenerDetallesPorFactura(@PathVariable Long facturaId) {
-        return ResponseEntity.ok(detalleFacturaService.obtenerDetallesPorFactura(facturaId));
-    }
-
-    @GetMapping("/detalles/{id}")
-    public ResponseEntity<DetalleResponseDTO> obtenerDetallePorId(@PathVariable Long id) {
-        return ResponseEntity.ok(detalleFacturaService.obtenerDetallePorId(id));
-    }
-
-    @DeleteMapping("/detalles/{id}")
-    public ResponseEntity<Void> eliminarDetalle(@PathVariable Long id) {
-        detalleFacturaService.eliminarDetalle(id);
-        return ResponseEntity.noContent().build();
-    }
 }
