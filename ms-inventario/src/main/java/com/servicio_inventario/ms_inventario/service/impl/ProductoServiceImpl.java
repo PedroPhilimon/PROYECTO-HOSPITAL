@@ -37,8 +37,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public ProductoResponseDTO create(ProductoRequestDTO dto) {
         Producto producto = new Producto();
-        
-        producto.setId(dto.getId()); 
+
         producto.setNombre(dto.getNombre());
         producto.setStock(dto.getStock());
         producto.setPrecio(dto.getPrecio());
@@ -55,7 +54,6 @@ public class ProductoServiceImpl implements ProductoService {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No se puede actualizar: Producto no encontrado con ID: " + id));
 
-        producto.setId(dto.getId()); 
         producto.setNombre(dto.getNombre());
         producto.setStock(dto.getStock());
         producto.setPrecio(dto.getPrecio());
