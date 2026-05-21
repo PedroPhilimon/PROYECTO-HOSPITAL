@@ -87,11 +87,12 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
         OrdenCompra ordenExistente = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Orden de compra no encontrada con el ID: " + id));
 
-        if (dto.getIdProveedor() == null || dto.getIdProveedor().getIdProveedor() == null) {
-            throw new IllegalArgumentException("Debe proporcionar una entidad proveedor válida con su respectivo ID.");
+        if (dto.getIdProveedor() == null) {
+            throw new IllegalArgumentException("Debe proporcionar un ID de proveedor válido.");
         }
 
-        Long proveedorId = dto.getIdProveedor().getIdProveedor();
+        Long proveedorId = dto.getIdProveedor();
+
         Proveedor proveedor = proveedorRepository.findById(proveedorId)
                 .orElseThrow(() -> new IllegalArgumentException("El proveedor con ID " + proveedorId + " no existe."));
 
@@ -110,6 +111,7 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
 
         return OrdenCompraResponseDTO.fromEntity(actualizada);
     }
+
 
     @Override
     @Transactional
