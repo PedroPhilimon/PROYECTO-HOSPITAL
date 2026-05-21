@@ -2,10 +2,7 @@ package com.servicio_facturacion.ms_facturacion.controller;
 
 import com.servicio_facturacion.ms_facturacion.dto.FacturaRequestDTO;
 import com.servicio_facturacion.ms_facturacion.dto.FacturaResponseDTO;
-import com.servicio_facturacion.ms_facturacion.dto.DetalleResponseDTO;
-import com.servicio_facturacion.ms_facturacion.model.DetalleFactura;
 import com.servicio_facturacion.ms_facturacion.service.FacturaService;
-import com.servicio_facturacion.ms_facturacion.service.DetalleFacturaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,5 +38,4 @@ public class FacturaController {
         facturaService.eliminarFactura(id);
         return ResponseEntity.noContent().build();
     }
-
 }
