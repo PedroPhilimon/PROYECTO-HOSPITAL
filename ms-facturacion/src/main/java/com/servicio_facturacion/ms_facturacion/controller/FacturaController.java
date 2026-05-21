@@ -20,7 +20,6 @@ import java.util.List;
 public class FacturaController {
 
     private final FacturaService facturaService;
-    private final DetalleFacturaService detalleFacturaService; // Inyectas ambos servicios
 
     @PostMapping
     public ResponseEntity<FacturaResponseDTO> crearFactura(@Valid @RequestBody FacturaRequestDTO dto) {
