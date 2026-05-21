@@ -45,22 +45,22 @@ public class OrdenCompraServiceImpl implements OrdenCompraService {
     @Override
     @Transactional
     public OrdenCompraResponseDTO guardar(OrdenCompraRequestDTO dto) {
-        if (dto.getIdProveedor() == null || dto.getIdProveedor().getIdProveedor() == null) {
-            throw new IllegalArgumentException("Debe proporcionar una entidad proveedor válida con su respectivo ID.");
+        if (dto.getIdProveedor() == null) {
+            throw new IllegalArgumentException("Debe proporcionar un ID de proveedor válido.");
         }
 
-        Long proveedorId = dto.getIdProveedor().getIdProveedor();
+        Long proveedorId = dto.getIdProveedor();
 
         Proveedor proveedor = proveedorRepository.findById(proveedorId)
                 .orElseThrow(() -> new IllegalArgumentException("El proveedor con ID " + proveedorId + " no existe."));
 
         ResponseEntity<Boolean> respuestaStock = inventarioClient.validarStock(
-                dto.getIdItemInventario(), 
+                dto.getIdItemInventario(),
                 dto.getCantidadPedida()
         );
 
         if (respuestaStock.getBody() == null || !respuestaStock.getBody()) {
-            throw new RuntimeException("No hay stock suficiente o el ítem con ID " 
+            throw new RuntimeException("No hay stock suficiente o el ítem con ID "
                     + dto.getIdItemInventario() + " no está disponible en ms-inventario.");
         }
 

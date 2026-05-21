@@ -25,7 +25,7 @@ public class OrdenCompraRequestDTO {
     private Integer cantidadPedida;
     private LocalDateTime fechaPedido;
     private Double montoEstimado;
-    private Proveedor idProveedor;
+    private Long idProveedor;
 
     @NotBlank(message = "El estado de la orden ")
     private String estado;
