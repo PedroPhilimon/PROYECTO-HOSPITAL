@@ -3,6 +3,9 @@ package com.pacientes.servicio_pacientes.controller;
 import com.pacientes.servicio_pacientes.dto.HistorialRequestDTO;
 import com.pacientes.servicio_pacientes.dto.HistorialResponseDTO;
 import com.pacientes.servicio_pacientes.service.HistorialPacienteService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/historiales")
+@Tag(name = "Pacientes", description = "Operaciones relacionadas con el el historial de los pacientes")
 @RequiredArgsConstructor
 public class HistorialPacienteController {
     
@@ -24,6 +28,7 @@ public class HistorialPacienteController {
     }
 
     // Obtener todos los historiales de un paciente
+    @Operation(summary = "Obtiene el historial de un paciente segun su id", description = "Obtiene el historial de un paciente específico detalladamente")
     @GetMapping("/paciente/{pacienteId}")
     public ResponseEntity<List<HistorialResponseDTO>> getByPaciente(@PathVariable Long pacienteId) {
         return ResponseEntity.ok(historialService.findByPacienteId(pacienteId));
