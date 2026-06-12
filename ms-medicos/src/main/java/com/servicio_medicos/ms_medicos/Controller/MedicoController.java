@@ -26,7 +26,7 @@ public class MedicoController {
     @ApiResponse(responseCode = "201", description = "Médico creado exitosamente")
     @ApiResponse(responseCode = "400", description = "Datos de solicitud inválidos")
     public ResponseEntity<MedicoResponseDTO> registrarMedico(@RequestBody MedicoRequestDTO requestDTO) {
-        MedicoResponseDTO responseDTO = medicoService.registrarMedico(requestDTO);
+        MedicoResponseDTO responseDTO = medicoService.create(requestDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
@@ -35,7 +35,7 @@ public class MedicoController {
     @ApiResponse(responseCode = "200", description = "Médico encontrado")
     @ApiResponse(responseCode = "404", description = "Médico no encontrado")
     public ResponseEntity<MedicoResponseDTO> obtenerMedicoPorId(@PathVariable Long id) {
-        MedicoResponseDTO responseDTO = medicoService.obtenerMedicoPorId(id);
+        MedicoResponseDTO responseDTO = medicoService.findById(id);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
@@ -43,7 +43,7 @@ public class MedicoController {
     @Operation(summary = "Listar todos los médicos", description = "Retorna una lista completa de todos los médicos registrados")
     @ApiResponse(responseCode = "200", description = "Lista obtenida exitosamente")
     public ResponseEntity<List<MedicoResponseDTO>> listarMedicos() {
-        List<MedicoResponseDTO> medicos = medicoService.listarMedicos();
+        List<MedicoResponseDTO> medicos = medicoService.findAll();
         return new ResponseEntity<>(medicos, HttpStatus.OK);
     }
 
@@ -52,7 +52,7 @@ public class MedicoController {
     @ApiResponse(responseCode = "200", description = "Médico actualizado exitosamente")
     @ApiResponse(responseCode = "404", description = "Médico no encontrado")
     public ResponseEntity<MedicoResponseDTO> actualizarMedico(@PathVariable Long id, @RequestBody MedicoRequestDTO requestDTO) {
-        MedicoResponseDTO responseDTO = medicoService.actualizarMedico(id, requestDTO);
+        MedicoResponseDTO responseDTO = medicoService.update(id, requestDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
@@ -61,7 +61,7 @@ public class MedicoController {
     @ApiResponse(responseCode = "204", description = "Médico eliminado exitosamente")
     @ApiResponse(responseCode = "404", description = "Médico no encontrado")
     public ResponseEntity<Void> eliminarMedico(@PathVariable Long id) {
-        medicoService.eliminarMedico(id);
+        medicoService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
