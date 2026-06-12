@@ -1,63 +1,67 @@
 package com.servicio_medicos.ms_medicos.Controller;
 
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.servicio_medicos.ms_medicos.Service.MedicoService;
 import com.servicio_medicos.ms_medicos.dto.MedicoRequestDTO;
 import com.servicio_medicos.ms_medicos.dto.MedicoResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
+import java.util.List;
 
 @RestController
-@RequestMapping("api/medicos")
+@RequestMapping("/api/medicos")
+@Tag(name = "Médicos", description = "Controller para la gestión de médicos y sus especialidades")
 public class MedicoController {
 
-    private final MedicoService medicoService;
+    @Autowired
+    private MedicoService medicoService;
 
-    public MedicoController(MedicoService medicoService) {
-        this.medicoService = medicoService;
-    }
-
-    @GetMapping
-    public ResponseEntity<List<MedicoResponseDTO>> findAll() {
-        List<MedicoResponseDTO> medicos = medicoService.findAll();
-        return ResponseEntity.ok(medicos);
+    @PostMapping
+    @Operation(summary = "Registrar un nuevo médico", description = "Crea un registro de médico en el sistema junto con sus datos generales")
+    @ApiResponse(responseCode = "201", description = "Médico creado exitosamente")
+    @ApiResponse(responseCode = "400", description = "Datos de solicitud inválidos")
+    public ResponseEntity<MedicoResponseDTO> registrarMedico(@RequestBody MedicoRequestDTO requestDTO) {
+        MedicoResponseDTO responseDTO = medicoService.registrarMedico(requestDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MedicoResponseDTO> findByDto(@PathVariable Long id) {
-        MedicoResponseDTO buscarMedicoId = medicoService.findById(id);
-        return ResponseEntity.ok(buscarMedicoId);
+    @Operation(summary = "Obtener médico por ID", description = "Busca y retorna el perfil de un médico específico mediante su identificador")
+    @ApiResponse(responseCode = "200", description = "Médico encontrado")
+    @ApiResponse(responseCode = "404", description = "Médico no encontrado")
+    public ResponseEntity<MedicoResponseDTO> obtenerMedicoPorId(@PathVariable Long id) {
+        MedicoResponseDTO responseDTO = medicoService.obtenerMedicoPorId(id);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<MedicoResponseDTO> create(@Valid @RequestBody MedicoRequestDTO dto) {
-        MedicoResponseDTO crearMedico = medicoService.create(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(crearMedico);
+    @GetMapping
+    @Operation(summary = "Listar todos los médicos", description = "Retorna una lista completa de todos los médicos registrados")
+    @ApiResponse(responseCode = "200", description = "Lista obtenida exitosamente")
+    public ResponseEntity<List<MedicoResponseDTO>> listarMedicos() {
+        List<MedicoResponseDTO> medicos = medicoService.listarMedicos();
+        return new ResponseEntity<>(medicos, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MedicoResponseDTO> update(@PathVariable Long id, @Valid @RequestBody MedicoRequestDTO dto) {
-        MedicoResponseDTO actualizarMedico = medicoService.update(id, dto);
-        return ResponseEntity.ok(actualizarMedico);
+    @Operation(summary = "Actualizar datos del médico", description = "Modifica la información existente de un médico por su ID")
+    @ApiResponse(responseCode = "200", description = "Médico actualizado exitosamente")
+    @ApiResponse(responseCode = "404", description = "Médico no encontrado")
+    public ResponseEntity<MedicoResponseDTO> actualizarMedico(@PathVariable Long id, @RequestBody MedicoRequestDTO requestDTO) {
+        MedicoResponseDTO responseDTO = medicoService.actualizarMedico(id, requestDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        medicoService.delete(id);
-        return ResponseEntity.noContent().build();
+    @Operation(summary = "Eliminar un médico", description = "Elimina de forma lógica o física el registro de un médico del sistema")
+    @ApiResponse(responseCode = "204", description = "Médico eliminado exitosamente")
+    @ApiResponse(responseCode = "404", description = "Médico no encontrado")
+    public ResponseEntity<Void> eliminarMedico(@PathVariable Long id) {
+        medicoService.eliminarMedico(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 }
