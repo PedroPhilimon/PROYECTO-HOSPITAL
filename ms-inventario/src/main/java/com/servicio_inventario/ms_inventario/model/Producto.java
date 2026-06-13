@@ -48,7 +48,8 @@ public class Producto {
     @NotBlank(message = "La categoría es obligatoria")
     @Size(min = 1, max = 100, message = "La categoría debe estar entre 1 y 100")
     private String categoria;
-    
+
+    @Column(name = "fecha_vencimiento")
     @FutureOrPresent
     private LocalDate fechaVencimiento;
 }

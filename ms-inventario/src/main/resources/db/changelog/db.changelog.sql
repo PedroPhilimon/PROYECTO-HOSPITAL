@@ -9,7 +9,7 @@ CREATE TABLE productos (
     stock INT NOT NULL,
     precio INT NOT NULL,
     categoria VARCHAR(100) NOT NULL,
-    fechaVencimiento DATE
+    fecha_vencimiento DATE
 );
 
 --changeset pedro:2
