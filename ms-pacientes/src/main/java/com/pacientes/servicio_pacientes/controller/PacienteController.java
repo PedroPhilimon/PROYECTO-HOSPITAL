@@ -43,22 +43,51 @@ public class PacienteController {
 
     @GetMapping
     @Operation(summary = "Obtiene todos los pacientes", description = "Obtiene una lista de todos los pacientes")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Paciente encontrados exitosamente",
+                        content = @Content(mediaType = "Aplication/json",
+                            schema = @Schema(implementation = PacienteResponseDTO.class))),
+                    @ApiResponse(responseCode = "404", description = "No hay existencia de pacientes")
+            }
+    )
     public ResponseEntity<List<PacienteResponseDTO>> findAll() {
         List<PacienteResponseDTO> pacientes = pacienteService.findAll();
         return ResponseEntity.ok(pacientes);
     }
 
+
+    @Operation(summary = "Obtiene un paciente específico", description = "Obtiene un paciente específico según su id")
     @GetMapping("/{id}")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Paciente encontrado exitosamente!",
+                        content = @Content(mediaType = "Aplication/json",
+                            schema = @Schema(implementation = PacienteResponseDTO.class))),
+                    @ApiResponse(responseCode = "404", description = "Paciente no encontrado en la base de datos:")
+            }
+    )
     public ResponseEntity<PacienteResponseDTO> findByDto(@PathVariable Long id) {
         PacienteResponseDTO buscarPacienteId = pacienteService.findByDto(id);
         return ResponseEntity.ok(buscarPacienteId);
     }
 
-     @PostMapping
+
+    @Operation(summary = "Crea un paciente", description = "Crea un paciente con todos sus detalles")
+    @PostMapping
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "201", description = "Paciente creado exitosamente!",
+                        content = @Content(mediaType = "Aplication/json",
+                            schema = @Schema(implementation = PacienteRequestDTO.class))),
+                    @ApiResponse(responseCode = "400", description = "Error al crear paciente")
+            }
+    )
     public ResponseEntity<PacienteResponseDTO> create(@Valid @RequestBody PacienteRequestDTO dto) {
         PacienteResponseDTO crearPaciente = pacienteService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(crearPaciente);
     }
+
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualiza un paciente", description = "Actualiza el paciente y lo guarda en la db")
@@ -75,6 +104,7 @@ public class PacienteController {
         return ResponseEntity.ok(actualizarPaciente);
     }
 
+    @Operation(summary = "Elimina un paciente específico", description = "Elimina un paciente según su id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         pacienteService.delete(id);
