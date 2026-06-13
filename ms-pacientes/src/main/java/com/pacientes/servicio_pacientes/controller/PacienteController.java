@@ -106,6 +106,14 @@ public class PacienteController {
 
     @Operation(summary = "Elimina un paciente específico", description = "Elimina un paciente según su id")
     @DeleteMapping("/{id}")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "204", description = "Paciente eliminado exitosamente!",
+                        content = @Content(mediaType = "Aplication/json",
+                            schema = @Schema(implementation = Paciente.class))),
+                    @ApiResponse(responseCode = "404", description = "Paciente no encontrado no se ha podido eliminar el paciente:")
+            }
+    )
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         pacienteService.delete(id);
         return ResponseEntity.noContent().build();
