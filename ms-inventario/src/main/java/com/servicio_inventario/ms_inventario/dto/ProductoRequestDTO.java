@@ -17,8 +17,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductoRequestDTO {
 
-    private Long id;
-
     @NotBlank(message = "El RUN es obligatorio")
     private String nombre;
 
