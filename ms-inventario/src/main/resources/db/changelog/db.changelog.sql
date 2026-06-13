@@ -7,13 +7,13 @@ CREATE TABLE productos (
     stock INT NOT NULL,
     precio INT NOT NULL,
     categoria VARCHAR(100) NOT NULL,
-    fecha_vencimiento DATE
+    fechaVencimiento DATE
 );
 
 --changeset pedro:2
 CREATE TABLE movimiento_inventario (
     id_movimiento BIGINT AUTO_INCREMENT PRIMARY KEY,
-    tipo_movimiento VARCHAR(255) NOT NULL,
+    tipoMovimiento VARCHAR(255) NOT NULL,
     cantidad INT NOT NULL,
     fecha_nacimiento DATETIME NOT NULL,
     id_cita BIGINT,
