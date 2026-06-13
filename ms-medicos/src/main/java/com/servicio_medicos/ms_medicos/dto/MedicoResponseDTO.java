@@ -1,6 +1,5 @@
 package com.servicio_medicos.ms_medicos.dto;
 
-import com.servicio_medicos.ms_medicos.model.Especialidad;
 import com.servicio_medicos.ms_medicos.model.Medico;
 
 import lombok.AllArgsConstructor;
