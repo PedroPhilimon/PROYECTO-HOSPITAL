@@ -47,7 +47,6 @@ public class Medico {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_especialidad")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Especialidad especialidad;
      
 }

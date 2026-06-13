@@ -18,7 +18,7 @@ public class MedicoResponseDTO {
     private String apellido;
     private String email;
     private String numero;
-    Especialidad especialidad;
+    EspecialidadResponseDTO especialidad;
 
     public static MedicoResponseDTO fromEntity(Medico medico) {
         MedicoResponseDTO dto = new MedicoResponseDTO();
@@ -26,8 +26,19 @@ public class MedicoResponseDTO {
         dto.setNombre(medico.getNombre());
         dto.setApellido(medico.getApellido());
         dto.setEmail(medico.getEmail());
-        dto.setEspecialidad(medico.getEspecialidad());
         dto.setNumero(medico.getNumero());
+        
+
+
+        if (medico.getEspecialidad() != null) {
+            EspecialidadResponseDTO espDto = new EspecialidadResponseDTO();
+            espDto.setId(medico.getEspecialidad().getId());
+            espDto.setNombre(medico.getEspecialidad().getNombre());
+            dto.setEspecialidad(espDto);
+        }
+
         return dto;
     }
+
+    
 }
