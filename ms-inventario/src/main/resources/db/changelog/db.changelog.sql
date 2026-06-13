@@ -1,4 +1,6 @@
 --liquibase formatted sql
+DROP TABLE IF EXISTS productos;
+DROP TABLE IF EXISTS productos;
 
 --changeset pedro:1
 CREATE TABLE productos (
