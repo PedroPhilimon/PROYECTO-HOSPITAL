@@ -1,6 +1,5 @@
 package com.servicio_medicos.ms_medicos.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

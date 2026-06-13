@@ -2,7 +2,6 @@ package com.servicio_proveedores.ms_proveedores.dto;
 
 import java.time.LocalDateTime;
 
-import com.servicio_proveedores.ms_proveedores.model.Proveedor;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
