@@ -49,3 +49,26 @@ CREATE TABLE IF NOT EXISTS historial_paciente (
     id_paciente BIGINT NOT NULL,
     CONSTRAINT fk_historial_paciente FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente)
 );
+
+--changeset pablo:4
+INSERT INTO historial_paciente (diagnostico, antecedentes, tipo_sangre, id_paciente) VALUES
+('Hipertensión arterial bajo control', 'Fumador crónico hasta 2024, abuelo paterno con antecedentes cardíacos', 'O+', 1),
+('Alergia severa a la penicilina', 'Asma estacional controlada con inhalador desde la infancia', 'A-', 2),
+('Diabetes Tipo 2 en tratamiento', 'Madre diabética, sedentarismo severo', 'O-', 3),
+('Fractura de muñeca izquierda en recuperación', 'Lesión deportiva jugando fútbol, sin cirugías previas', 'AB+', 4),
+('Control crónico de Hipotiroidismo', 'Diagnosticado en 2022, toma levotiroxina de por vida', 'A+', 5),
+('Rinitis alérgica estacional', 'Alergia al polen y al polvo, usa antihistamínicos en primavera', 'B+', 6),
+('Asma bronquial moderada', 'Crisis recurrentes en invierno, usa inhalador de rescate', 'O+', 7),
+('Gastritis crónica reagudizada', 'Consumo frecuente de antiinflamatorios por dolores de espalda', 'A-', 8),
+('Insuficiencia renal leve', 'Seguimiento por nefrólogo, restricción de sodio en la dieta', 'B-', 9),
+('Migraña con aura diagnosticada', 'Episodios mensuales gatillados por estrés y falta de sueño', 'O-', 10),
+('Esguince de tobillo grado 2', 'Lesión en trayecto al trabajo, bajo tratamiento con kinesiólogo', 'O+', 11),
+('Resistencia a la insulina', 'Tratamiento inicial con metformina y pauta nutricional', 'A+', 12),
+('Control post-operatorio de apendicitis', 'Operado con éxito hace 6 meses, sin complicaciones posteriores', 'B+', 13),
+('Anemia ferropénica en tratamiento', 'Suplementación con hierro oral por sospecha de baja ingesta', 'O+', 14),
+('Evaluación por sospecha de celiaquía', 'Dolores abdominales recurrentes, exámenes de sangre pendientes', 'A-', 15),
+('Hipercolesterolemia familiar', 'Padre y hermanos con niveles altos de colesterol, toma estatinas', 'O-', 16),
+('Lumbago mecanopostural agudo', 'Dolor tras levantar carga pesada, reposo relativo por 3 días', 'B-', 17),
+('Depresión leve en control', 'Tratamiento multidisciplinario con psicólogo y fármacos', 'O+', 18),
+('Obesidad grado 1', 'Derivado a programa de vida sana con nutricionista', 'A+', 19),
+('Chequeo médico general preventivo', 'Paciente sano, sin antecedentes mórbidos ni cirugías', 'AB-', 20);
