@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/historiales")
-@Tag(name = "Pacientes", description = "Operaciones relacionadas con el el historial de los pacientes")
+@Tag(name = "Historiales", description = "Operaciones relacionadas con el historial de los pacientes")
 @RequiredArgsConstructor
 public class HistorialPacienteController {
     
