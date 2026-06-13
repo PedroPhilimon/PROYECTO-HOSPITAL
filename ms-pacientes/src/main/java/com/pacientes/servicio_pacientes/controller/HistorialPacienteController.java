@@ -54,7 +54,7 @@ public class HistorialPacienteController {
         return ResponseEntity.ok(historialService.findByPacienteId(pacienteId));
     }
 
-
+    @Operation(summary = "Elimina el historial de un paciente segun su id", description = "Elimina el historial de un paciente específico")
     @DeleteMapping("/paciente/{id}")
     @ApiResponses(
             value = {

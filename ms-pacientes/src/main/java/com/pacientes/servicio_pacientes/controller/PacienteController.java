@@ -46,7 +46,7 @@ public class PacienteController {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Paciente encontrados exitosamente",
-                        content = @Content(mediaType = "Aplication/json",
+                        content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = PacienteResponseDTO.class))),
                     @ApiResponse(responseCode = "404", description = "No hay existencia de pacientes")
             }
@@ -62,7 +62,7 @@ public class PacienteController {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Paciente encontrado exitosamente!",
-                        content = @Content(mediaType = "Aplication/json",
+                        content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = PacienteResponseDTO.class))),
                     @ApiResponse(responseCode = "404", description = "Paciente no encontrado en la base de datos:")
             }
@@ -78,7 +78,7 @@ public class PacienteController {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "Paciente creado exitosamente!",
-                        content = @Content(mediaType = "Aplication/json",
+                        content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = PacienteRequestDTO.class))),
                     @ApiResponse(responseCode = "400", description = "Error al crear paciente")
             }
@@ -94,8 +94,8 @@ public class PacienteController {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Paciente actualizado exitosamente!",
-                        content = @Content(mediaType = "Aplication/json",
-                            schema = @Schema(implementation = Paciente.class))),
+                        content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PacienteRequestDTO.class))),
                     @ApiResponse(responseCode = "404", description = "Paciente no encontrado D:")
             }
     )
@@ -109,7 +109,7 @@ public class PacienteController {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "204", description = "Paciente eliminado exitosamente!",
-                        content = @Content(mediaType = "Aplication/json",
+                        content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Paciente.class))),
                     @ApiResponse(responseCode = "404", description = "Paciente no encontrado no se ha podido eliminar el paciente:")
             }
