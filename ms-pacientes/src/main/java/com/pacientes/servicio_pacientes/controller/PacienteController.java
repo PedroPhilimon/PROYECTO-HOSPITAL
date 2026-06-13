@@ -78,7 +78,7 @@ public class PacienteController {
             value = {
                     @ApiResponse(responseCode = "201", description = "Paciente creado exitosamente!",
                         content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = PacienteRequestDTO.class))),
+                            schema = @Schema(implementation = PacienteResponseDTO.class))),
                     @ApiResponse(responseCode = "400", description = "Error al crear paciente")
             }
     )
@@ -94,7 +94,7 @@ public class PacienteController {
             value = {
                     @ApiResponse(responseCode = "200", description = "Paciente actualizado exitosamente!",
                         content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = PacienteRequestDTO.class))),
+                            schema = @Schema(implementation = PacienteResponseDTO.class))),
                     @ApiResponse(responseCode = "404", description = "Paciente no encontrado D:")
             }
     )
@@ -105,14 +105,18 @@ public class PacienteController {
 
     @Operation(summary = "Elimina un paciente específico", description = "Elimina un paciente según su id")
     @DeleteMapping("/{id}")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "204", description = "Paciente eliminado exitosamente!",
-                        content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = PacienteRequestDTO.class))),
-                    @ApiResponse(responseCode = "404", description = "Paciente no encontrado no se ha podido eliminar el paciente:")
-            }
-    )
+     @ApiResponses(
+        value = {
+                @ApiResponse(
+                        responseCode = "204", 
+                        description = "Paciente eliminado exitosamente. Sin contenido en el cuerpo."
+                ),
+                @ApiResponse(
+                        responseCode = "404", 
+                        description = "No se ha podido eliminar: El paciente no fue encontrado con el ID proporcionado"
+                )
+        }
+)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         pacienteService.delete(id);
         return ResponseEntity.noContent().build();

@@ -31,7 +31,7 @@ public class HistorialPacienteController {
             value = {
                     @ApiResponse(responseCode = "201", description = "Historial creado exitosamente!",
                         content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = HistorialRequestDTO.class))),
+                            schema = @Schema(implementation = HistorialResponseDTO.class))),
                     @ApiResponse(responseCode = "400", description = "Error al crear paciente")
             }
     )
@@ -57,13 +57,17 @@ public class HistorialPacienteController {
     @Operation(summary = "Elimina el historial de un paciente segun su id", description = "Elimina el historial de un paciente específico")
     @DeleteMapping("/paciente/{id}")
     @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "204", description = "Paciente eliminado exitosamente!",
-                        content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = HistorialRequestDTO.class))),
-                    @ApiResponse(responseCode = "404", description = "Paciente no encontrado no se ha podido eliminar el paciente")
-            }
-    )
+        value = {
+                @ApiResponse(
+                        responseCode = "204", 
+                        description = "Historial médico eliminado exitosamente. Sin contenido en el cuerpo."
+                ),
+                @ApiResponse(
+                        responseCode = "404", 
+                        description = "No se ha podido eliminar: El historial médico no fue encontrado con el ID proporcionado"
+                )
+        }
+)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         historialService.delete(id);
         return ResponseEntity.noContent().build();

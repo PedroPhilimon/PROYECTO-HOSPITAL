@@ -1,7 +1,5 @@
 --liquibase formatted sql
 
-
-
 --changeset pedro:1
 CREATE TABLE paciente (
     id_paciente BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -10,11 +8,20 @@ CREATE TABLE paciente (
     apellido VARCHAR(255) NOT NULL,
     fecha_nacimiento DATE,
     prevision VARCHAR(255) NOT NULL
+);
 
+--changeset evan:2
+CREATE TABLE IF NOT EXISTS historial_paciente (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    diagnostico VARCHAR(500),
+    antecedentes VARCHAR(500),
+    tipo_sangre VARCHAR(10),
+    id_paciente BIGINT NOT NULL
 );
 
 --changeset pablo:3
 ALTER TABLE paciente ADD CONSTRAINT uc_paciente_run UNIQUE (run);
+ALTER TABLE historial_paciente ADD CONSTRAINT fk_historial_paciente FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente);
 
 --changeset pedro:2
 INSERT INTO paciente (run, nombre, apellido, fecha_nacimiento, prevision) VALUES
@@ -38,17 +45,6 @@ INSERT INTO paciente (run, nombre, apellido, fecha_nacimiento, prevision) VALUES
 ('27.901.234-5', 'Catalina', 'Fuentes', '1992-12-14', 'Isapre'),
 ('28.012.345-6', 'Felipe', 'Aguilar', '1995-09-29', 'Fonasa'),
 ('29.123.456-7', 'Josefa', 'Paredes', '2000-04-18', 'Isapre');
-
-
---changeset evan:2
-CREATE TABLE IF NOT EXISTS historial_paciente (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    diagnostico VARCHAR(500),
-    antecedentes VARCHAR(500),
-    tipo_sangre VARCHAR(10),
-    id_paciente BIGINT NOT NULL,
-    CONSTRAINT fk_historial_paciente FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente)
-);
 
 --changeset pablo:4
 INSERT INTO historial_paciente (diagnostico, antecedentes, tipo_sangre, id_paciente) VALUES
