@@ -1,10 +1,7 @@
 package com.servicio_citamedica.ms_citamedica.controller;
 
-import com.servicio_citamedica.ms_citamedica.dto.CitaRequestDTO;
-import com.servicio_citamedica.ms_citamedica.dto.CitaResponseDTO;
 import com.servicio_citamedica.ms_citamedica.dto.SalaAtencionRequestDTO;
 import com.servicio_citamedica.ms_citamedica.dto.SalaAtencionResponseDTO;
-import com.servicio_citamedica.ms_citamedica.service.CitaMedicaService;
 import com.servicio_citamedica.ms_citamedica.service.SalaAtencionService;
 
 import io.swagger.v3.oas.annotations.Operation;

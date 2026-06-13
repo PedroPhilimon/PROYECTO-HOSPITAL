@@ -1,7 +1,11 @@
 --liquibase formatted sql
 
+DROP TABLE IF EXISTS citas;
+DROP TABLE IF EXISTS salas;
+DROP TABLE IF EXISTS databasechangelog;
+DROP TABLE IF EXISTS databasechangeloglock;
 --changeset pedro:1
-CREATE TABLE SALA_ATENCION (
+CREATE TABLE salas (
     id_sala BIGINT AUTO_INCREMENT PRIMARY KEY,
     NOMBRE VARCHAR(100) NOT NULL,
     UBICACION VARCHAR(255)
