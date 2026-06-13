@@ -30,7 +30,7 @@ public class HistorialPacienteController {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "Historial creado exitosamente!",
-                        content = @Content(mediaType = "Aplication/json",
+                        content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = HistorialRequestDTO.class))),
                     @ApiResponse(responseCode = "400", description = "Error al crear paciente")
             }
@@ -45,7 +45,7 @@ public class HistorialPacienteController {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Historial de paciente encontrado exitosamente",
-                        content = @Content(mediaType = "Aplication/json",
+                        content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = HistorialResponseDTO.class))),
                     @ApiResponse(responseCode = "404", description = "No existe el historial del paciente buscado")
             }
@@ -59,7 +59,7 @@ public class HistorialPacienteController {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "204", description = "Paciente eliminado exitosamente!",
-                        content = @Content(mediaType = "Aplication/json",
+                        content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = HistorialRequestDTO.class))),
                     @ApiResponse(responseCode = "404", description = "Paciente no encontrado no se ha podido eliminar el paciente")
             }

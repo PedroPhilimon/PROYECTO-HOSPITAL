@@ -2,7 +2,6 @@ package com.pacientes.servicio_pacientes.controller;
 
 import java.util.List;
 
-import com.pacientes.servicio_pacientes.model.Paciente;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -110,7 +109,7 @@ public class PacienteController {
             value = {
                     @ApiResponse(responseCode = "204", description = "Paciente eliminado exitosamente!",
                         content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Paciente.class))),
+                            schema = @Schema(implementation = PacienteRequestDTO.class))),
                     @ApiResponse(responseCode = "404", description = "Paciente no encontrado no se ha podido eliminar el paciente:")
             }
     )
