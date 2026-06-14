@@ -17,8 +17,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FacturaRequestDTO {
     
-    private Long id;
-
     private Long citaId;
 
     private Long pacienteId;
