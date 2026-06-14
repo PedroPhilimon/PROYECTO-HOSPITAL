@@ -16,13 +16,18 @@ import java.time.LocalDateTime;
 public class HistorialClinico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_historial")
     private Long idHistorial;
     
+    @Column(name = "id_paciente")
     @NotNull(message = "El id del paciente no puede ser nulo")
     private Long idPaciente;
+
+    @Column(name = "id_medico")
     @NotNull(message = "El id del médico no puede ser nulo")
     private Long idMedico;
     
+    @Column(name = "fecha_atencion")
     private LocalDateTime fechaAtencion;
 
     @NotBlank(message = "El diagnóstico no puede estar vacío")
