@@ -42,6 +42,7 @@ public class Consulta {
     private LocalDate fecha;
 
     @NotBlank(message = "El motivo de la consulta no puede estar vacío")
+    @Column(name = "motivo_consulta")
     private String motivoConsulta;
 
     @NotBlank(message = "El diagnóstico no puede estar vacío")
