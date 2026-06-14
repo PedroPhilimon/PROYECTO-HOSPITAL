@@ -1,4 +1,8 @@
 --liquibase formatted sql
+DROP TABLE IF EXISTS orden_laboratorio;
+DROP TABLE IF EXISTS examen_laboratorio;
+DROP TABLE IF EXISTS databasechangelog;
+DROP TABLE IF EXISTS databasechangeloglock;
 
 --changeset pedro:1
 CREATE TABLE orden_laboratorio (

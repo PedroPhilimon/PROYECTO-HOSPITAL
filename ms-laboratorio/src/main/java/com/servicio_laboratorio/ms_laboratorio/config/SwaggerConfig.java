@@ -10,7 +10,7 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI(){
         return new OpenAPI()
-                .info(new Info().title("API Gestión Pacientes").version("1.0").description("Documentación de la API para el microservicio de pacientes")
+                .info(new Info().title("API Gestión laboratorio").version("1.0").description("Documentación de la API para el microservicio de laboratorio")
                 );
     }
 }

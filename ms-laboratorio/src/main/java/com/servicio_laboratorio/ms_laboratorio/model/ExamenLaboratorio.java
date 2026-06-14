@@ -30,6 +30,7 @@ public class ExamenLaboratorio {
     @Column(name = "orden_id", insertable = false, updatable = false)
     private Long ordenId;
 
+    @Column(name = "nombre_examen")
     private String nombreExamen;
 
     private String resultado;
