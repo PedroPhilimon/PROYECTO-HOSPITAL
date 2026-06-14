@@ -15,8 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrdenCompraRequestDTO {
-    private Long idOrden;
-
 
     private Long idItemInventario;
 
