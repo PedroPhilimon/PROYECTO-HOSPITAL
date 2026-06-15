@@ -14,9 +14,49 @@ spring:
                           predicates:
                             - Path=/pacientes/** 
 
+                        - id: medicos
+                          uri: lb://medicos
+                          predicates:
+                            - Path=/medicos/**
+                        
+                        - id: consultas
+                          uri: lb://consultas
+                          predicates:
+                            - Path=/consultas/**
+
+                        - id: citamedica
+                          uri: lb://citamedica
+                          predicates:
+                            - Path=/citamedica/**
+
+                        - id: laboratorio
+                          uri: lb://laboratorio
+                          predicates:
+                            - Path=/laboratorio/**
+
+                        - id: inventario
+                          uri: lb://inventario
+                          predicates:
+                            - Path=/inventario/**
+                        
+                        - id: historial
+                          uri: lb://historial
+                          predicates:
+                            - Path=/historial/**
+
+                        - id: proveedores
+                          uri: lb://proveedores
+                          predicates:
+                            - Path=/proveedores/**
+
+                        - id: facturacion
+                          uri: lb://facturacion
+                          predicates:
+                            - Path=/facturacion/**
+
 eureka:
     client:
         service-url:
             defaultZone: http://localhost:8761/eureka/
         instance:
-          prefer-ip-address: true
+            prefer-ip-address: true
