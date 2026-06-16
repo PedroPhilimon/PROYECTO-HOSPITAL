@@ -54,6 +54,18 @@ spring:
               predicates:
                 - Path=/api/salas/**
 
+            # MICROSERVICIO: CITAS MÉDICAS
+            - id: inventario
+              uri: lb://ms-inventario
+              predicates:
+                - Path=/api/productos/**
+            
+            - id: movimientos
+              uri: lb://ms-inventario
+              predicates:
+                - Path=/api/movimientos/**
+            
+
 eureka:
   client:
     service-url:
