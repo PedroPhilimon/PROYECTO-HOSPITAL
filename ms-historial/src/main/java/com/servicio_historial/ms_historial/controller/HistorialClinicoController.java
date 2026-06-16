@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/historiales")
+@RequestMapping("/api/historiales-clinicos")
 @Tag(name = "Historiales Clínicos", description = "Operaciones relacionadas con los historiales clínicos de los pacientes")
 @RequiredArgsConstructor
 public class HistorialClinicoController {

@@ -1,6 +1,5 @@
 package com.servicio_agenda.ms_agenda.controller;
 
-import com.servicio_agenda.ms_agenda.dto.AgendaMedicoResponseDTO;
 import com.servicio_agenda.ms_agenda.dto.AsignacionSalaRequestDTO;
 import com.servicio_agenda.ms_agenda.dto.AsignacionSalaResponseDTO;
 import com.servicio_agenda.ms_agenda.model.AsignacionSala;

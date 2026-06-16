@@ -54,7 +54,7 @@ spring:
               predicates:
                 - Path=/api/salas/**
 
-            # MICROSERVICIO: CITAS MÉDICAS
+            # MICROSERVICIO: INVENTARIO
             - id: inventario
               uri: lb://ms-inventario
               predicates:
@@ -64,7 +64,51 @@ spring:
               uri: lb://ms-inventario
               predicates:
                 - Path=/api/movimientos/**
+
+            # MICROSERVICIO: AGENDAS MÉDICAS
+            - id: agendas
+              uri: lb://ms-agenda
+              predicates:
+                - Path=/api/agendas/**
             
+            - id: asignaciones
+              uri: lb://ms-agenda
+              predicates:
+                - Path=/api/asignaciones-salas/**
+
+            # MICROSERVICIO: FACTURACIÓN
+            - id: facturas
+              uri: lb://ms-facturacion
+              predicates:
+                - Path=/api/facturas/**    
+
+            # MICROSERVICIO: HISTORIAL
+            - id: historiales
+              uri: lb://ms-historial
+              predicates:
+                - Path=/api/historiales-clinicos/**
+
+            - id: registros
+              uri: lb://ms-historial
+              predicates:
+                - Path=/api/registros/**
+
+            # MICROSERVICIO: CONSULTAS
+            - id: consultas
+              uri: lb://ms-consultas
+              predicates:
+                - Path=/api/consultas/**
+
+            # MICROSERVICIO: LABORATORIO
+            - id: ordenes
+              uri: lb://ms-laboratorio
+              predicates:
+                - Path=/api/ordenes/**
+
+            - id: examenes
+              uri: lb://ms-laboratorio
+              predicates:
+                - Path=/api/examenes/**
 
 eureka:
   client:
