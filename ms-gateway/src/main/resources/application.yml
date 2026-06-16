@@ -10,49 +10,78 @@ spring:
                 webmvc:
                     routes:
                         - id: pacientes
-                          uri: lb://pacientes
+                          uri: lb://ms-pacientes
                           predicates:
-                            - Path=/pacientes/** 
+                            - Path=/api/pacientes/**
+                        - id: historial
+                          uri: lb://ms-pacientes
+                          predicates:
+                            - Path=/api/historiales/**
 
                         - id: medicos
-                          uri: lb://medicos
+                          uri: lb://ms-medicos
                           predicates:
-                            - Path=/medicos/**
+                            - Path=/api/medicos/**
+                        - id: especialidad                         
+                          uri: lb://ms-medicos
+                          predicates:
+                            - Path=/api/especialidades/**
                         
                         - id: consultas
-                          uri: lb://consultas
+                          uri: lb://ms-consultas
                           predicates:
-                            - Path=/consultas/**
+                            - Path=/api/consultas/**
 
                         - id: citamedica
-                          uri: lb://citamedica
+                          uri: lb://ms-citamedica
                           predicates:
-                            - Path=/citamedica/**
+                            - Path=/api/citas/**
+                        - id: citamedica
+                          uri: lb://ms-citamedica
+                          predicates:
+                            - Path=/api/salas/**
+
 
                         - id: laboratorio
-                          uri: lb://laboratorio
+                          uri: lb://ms-laboratorio
                           predicates:
-                            - Path=/laboratorio/**
+                            - Path=/api/examenes/**
+                        - id: laboratorio
+                          uri: lb://ms-laboratorio
+                          predicates:
+                            - Path=/api/ordenes/**
 
                         - id: inventario
-                          uri: lb://inventario
+                          uri: lb://ms-inventario
                           predicates:
-                            - Path=/inventario/**
+                            - Path=/api/productos/**
+                        - id: inventario
+                          uri: lb://ms-laboratorio
+                          predicates:
+                            - Path=/api/movimientos/**
                         
                         - id: historial
-                          uri: lb://historial
+                          uri: lb://ms-historial
                           predicates:
-                            - Path=/historial/**
+                            - Path=/api/historiales/**
+                        - id: historial
+                          uri: lb://ms-historial
+                          predicates:
+                            - Path=/api/registros/**
 
                         - id: proveedores
-                          uri: lb://proveedores
+                          uri: lb://ms-proveedores
                           predicates:
-                            - Path=/proveedores/**
+                            - Path=/api/proveedores/**
+                        - id: proveedores
+                          uri: lb://ms-proveedores
+                          predicates:
+                            -Path=/api/ordenes-compra/**
 
                         - id: facturacion
-                          uri: lb://facturacion
+                          uri: lb://ms-facturacion
                           predicates:
-                            - Path=/facturacion/**
+                            - Path=/api/facturas/**
 
 eureka:
     client:
