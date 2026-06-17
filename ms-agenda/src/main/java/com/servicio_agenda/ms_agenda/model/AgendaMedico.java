@@ -15,10 +15,16 @@ import java.time.LocalDateTime;
 public class AgendaMedico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_agenda")
     private Long idAgenda;
-    
+        
+    @Column(name = "id_medico")
     private Long idMedico;
+
+    @Column(name = "fecha_hora_inicio")
     private LocalDateTime fechaHoraInicio;
+
+    @Column(name = "fecha_hora_fin")
     private LocalDateTime fechaHoraFin;
     @NotBlank(message = "El estado no puede estar vacío")
     private String estado;

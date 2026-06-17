@@ -2,7 +2,6 @@ package com.pacientes.servicio_pacientes.controller;
 
 import java.util.List;
 
-import com.pacientes.servicio_pacientes.model.Paciente;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +25,6 @@ import com.pacientes.servicio_pacientes.service.PacienteService;
 
 import jakarta.validation.Valid;
 
-import javax.print.attribute.standard.Media;
 
 
 @RestController
@@ -45,30 +42,59 @@ public class PacienteController {
 
     @GetMapping
     @Operation(summary = "Obtiene todos los pacientes", description = "Obtiene una lista de todos los pacientes")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Paciente encontrados exitosamente",
+                        content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PacienteResponseDTO.class))),
+                    @ApiResponse(responseCode = "404", description = "No hay existencia de pacientes")
+            }
+    )
     public ResponseEntity<List<PacienteResponseDTO>> findAll() {
         List<PacienteResponseDTO> pacientes = pacienteService.findAll();
         return ResponseEntity.ok(pacientes);
     }
 
+
+    @Operation(summary = "Obtiene un paciente específico", description = "Obtiene un paciente específico según su id")
     @GetMapping("/{id}")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Paciente encontrado exitosamente!",
+                        content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PacienteResponseDTO.class))),
+                    @ApiResponse(responseCode = "404", description = "Paciente no encontrado en la base de datos:")
+            }
+    )
     public ResponseEntity<PacienteResponseDTO> findByDto(@PathVariable Long id) {
         PacienteResponseDTO buscarPacienteId = pacienteService.findByDto(id);
         return ResponseEntity.ok(buscarPacienteId);
     }
 
-     @PostMapping
+
+    @Operation(summary = "Crea un paciente", description = "Crea un paciente con todos sus detalles")
+    @PostMapping
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "201", description = "Paciente creado exitosamente!",
+                        content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PacienteResponseDTO.class))),
+                    @ApiResponse(responseCode = "400", description = "Error al crear paciente")
+            }
+    )
     public ResponseEntity<PacienteResponseDTO> create(@Valid @RequestBody PacienteRequestDTO dto) {
         PacienteResponseDTO crearPaciente = pacienteService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(crearPaciente);
     }
+
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualiza un paciente", description = "Actualiza el paciente y lo guarda en la db")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Paciente actualizado exitosamente!",
-                        content = @Content(mediaType = "Aplication/json",
-                            schema = @Schema(implementation = Paciente.class))),
+                        content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PacienteResponseDTO.class))),
                     @ApiResponse(responseCode = "404", description = "Paciente no encontrado D:")
             }
     )
@@ -77,7 +103,20 @@ public class PacienteController {
         return ResponseEntity.ok(actualizarPaciente);
     }
 
+    @Operation(summary = "Elimina un paciente específico", description = "Elimina un paciente según su id")
     @DeleteMapping("/{id}")
+     @ApiResponses(
+        value = {
+                @ApiResponse(
+                        responseCode = "204", 
+                        description = "Paciente eliminado exitosamente. Sin contenido en el cuerpo."
+                ),
+                @ApiResponse(
+                        responseCode = "404", 
+                        description = "No se ha podido eliminar: El paciente no fue encontrado con el ID proporcionado"
+                )
+        }
+)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         pacienteService.delete(id);
         return ResponseEntity.noContent().build();

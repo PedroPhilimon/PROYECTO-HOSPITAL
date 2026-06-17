@@ -14,10 +14,13 @@ import lombok.NoArgsConstructor;
 public class AsignacionSala {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_asignacion")
     private Long idAsignacion;
     
+    @Column(name = "id_sala") 
     private Long idSala;
     
+    @Column(name = "motivo_bloqueo")
     @NotBlank(message = "El motivo del bloqueo no puede estar vacío")
     private String motivoBloqueo;
     

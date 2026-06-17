@@ -1,4 +1,6 @@
 --liquibase formatted sql
+DROP TABLE IF EXISTS productos;
+DROP TABLE IF EXISTS productos;
 
 --changeset pedro:1
 CREATE TABLE productos (
@@ -13,7 +15,7 @@ CREATE TABLE productos (
 --changeset pedro:2
 CREATE TABLE movimiento_inventario (
     id_movimiento BIGINT AUTO_INCREMENT PRIMARY KEY,
-    tipo_movimiento VARCHAR(255) NOT NULL,
+    tipoMovimiento VARCHAR(255) NOT NULL,
     cantidad INT NOT NULL,
     fecha_nacimiento DATETIME NOT NULL,
     id_cita BIGINT,

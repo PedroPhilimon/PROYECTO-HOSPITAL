@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SalaAtencionRequestDTO {
-    private Long id;
 
     @NotBlank(message = "Nombre de la sala es obligatorio")
     private String nombre;

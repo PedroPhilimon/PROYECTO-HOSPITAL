@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrdenRequestDTO {
-    
-    private Long id;
 
     private Long consultaId;
 

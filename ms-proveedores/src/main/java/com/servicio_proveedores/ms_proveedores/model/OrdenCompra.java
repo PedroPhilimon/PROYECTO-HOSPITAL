@@ -15,12 +15,19 @@ import java.time.LocalDateTime;
 public class OrdenCompra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_orden")
     private Long idOrden;
 
-
+    @Column(name = "id_item_inventario")
     private Long idItemInventario;
+
+    @Column(name = "cantidad_pedida")
     private Integer cantidadPedida;
+
+    @Column(name = "fecha_pedido")
     private LocalDateTime fechaPedido;
+
+    @Column(name = "monto_estimado")
     private Double montoEstimado;
 
     @NotBlank(message = "El estado de la orden ")

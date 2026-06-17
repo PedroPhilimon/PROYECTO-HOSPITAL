@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class HistorialRequestDTO {
 
-    private Long id;
     @NotBlank(message = "El diagnostico es obligatorio")
     private String diagnostico;
     @NotBlank(message = "El detalle de los antecedentes es obligatorio")

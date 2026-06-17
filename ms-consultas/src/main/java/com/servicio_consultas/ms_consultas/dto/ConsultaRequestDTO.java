@@ -9,8 +9,6 @@ import lombok.Data;
 @Data
 public class ConsultaRequestDTO {
     
-    private Long id;
-
     private Long pacienteId;
 
     private Long medicoId;

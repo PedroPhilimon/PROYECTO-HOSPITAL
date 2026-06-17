@@ -2,6 +2,7 @@ package com.servicio_laboratorio.ms_laboratorio.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,10 +27,13 @@ public class OrdenLaboratorio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "consulta_id")
     private Long consultaId;
 
+    @Column(name = "paciente_id")
     private Long pacienteId;
 
+    @Column(name = "medico_id")
     private Long medicoId;
 
     private LocalDate fecha;

@@ -8,9 +8,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AgendaMedicoRequestDTO {
-    private Long idAgenda;
-    
+public class AgendaMedicoRequestDTO {    
     private Long idMedico;
     private LocalDateTime fechaHoraInicio;
     private LocalDateTime fechaHoraFin;

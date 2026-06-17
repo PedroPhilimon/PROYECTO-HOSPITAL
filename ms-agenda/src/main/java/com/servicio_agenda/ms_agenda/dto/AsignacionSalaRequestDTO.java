@@ -12,10 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AsignacionSalaRequestDTO {
-
-    @NotNull(message = "El ID de la agenda es obligatorio")
-    private Long idAsignacion; 
-
+ 
     @NotNull(message = "El ID de la agenda es obligatorio") 
     private Long idSala;
 

@@ -19,6 +19,7 @@ public class RegistroClinico {
     @NotBlank(message = "El peso no puede estar vacío")
     private String peso;
 
+    @Column(name = "presion_arterial") 
     @NotBlank(message = "La presión arterial no puede estar vacía")
     private String presionArterial;
 

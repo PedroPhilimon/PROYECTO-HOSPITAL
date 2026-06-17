@@ -2,6 +2,7 @@ package com.servicio_facturacion.ms_facturacion.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,29 +28,36 @@ import lombok.Setter;
 public class Factura {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
     
+    @Column(name = "cita_id")
     private Long citaId;
     
+    @Column(name = "paciente_id")
     private Long pacienteId;
 
+    @Column(name = "fecha_emision")
     @NotNull(message = "La fecha de emisión no puede ser nula")
     @PastOrPresent(message = "La fecha de emisión no puede ser en el futuro")
     private LocalDateTime fechaEmision;
 
+    @Column(name = "monto_subtotal")
     @PositiveOrZero(message = "El monto subtotal debe ser mayor o igual a cero")
     private double montoSubtotal;
 
+    @Column(name = "monto_descuento")
     @PositiveOrZero(message = "El monto de descuento debe ser mayor o igual a cero")
     private double montoDescuento;
 
+    @Column(name = "monto_total")
     @PositiveOrZero(message = "El monto total debe ser mayor o igual a cero")
     private double montoTotal;
 
     @NotBlank(message = "El estado no puede estar vacío")
     private String estado;
 
+    @Column(name = "medio_pago")
     @NotBlank(message = "El medio de pago no puede estar vacío")
     private String medioPago;
 

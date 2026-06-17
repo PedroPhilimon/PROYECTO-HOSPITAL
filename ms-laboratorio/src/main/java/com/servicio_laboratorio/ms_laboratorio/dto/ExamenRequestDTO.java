@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ExamenRequestDTO {
 
-    private Long id;
-
     private Long ordenId;
 
     @NotBlank(message = "el nombre del examen no puede estar vacío")
