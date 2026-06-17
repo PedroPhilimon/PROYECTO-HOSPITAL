@@ -1,296 +1,250 @@
+version: '3.8'
+
+networks:
+  hospital-network:
+    driver: bridge
+
 services:
-  # ---------------------------------------------------------------------
-  # EL GATEWAY
-  # ---------------------------------------------------------------------
+  # ==========================================
+  # 1. BASE DE DATOS CENTRALIZADA
+  # ==========================================
+  # Un único contenedor MySQL para ahorrar memoria RAM y CPU.
+  # Spring Boot creará automáticamente los esquemas lógicos gracias al parámetro 'createDatabaseIfNotExist=true'
+  db-hospital:
+    image: mysql:8.0
+    container_name: hospital-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+    ports:
+      - "3306:3306"
+    networks:
+      - hospital-network
+
+  # ==========================================
+  # 2. SERVIDOR DE DESCUBRIMIENTO (EUREKA)
+  # ==========================================
+  ms-eureka:
+    build: ./ms-eureka
+    container_name: hospital-ms-eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - hospital-network
+
+  # ==========================================
+  # 3. API GATEWAY
+  # ==========================================
   ms-gateway:
     build: ./ms-gateway
-    container_name: ferrefix-gateway
+    container_name: hospital-gateway
     ports:
       - "8080:8080"
     depends_on:
-      - ms-auth
-      - ms-pacientes
-      - ms-medicos
-      - ms-citamedica
-      - ms-inventario
-      - ms-agenda
-      - ms-facturacion
-      - ms-historial
-      - ms-consultas
-      - ms-proveedores
-      - ms-laboratorio      
-
-  # ---------------------------------------------------------------------
-  # MICROSERVICIO: AUTH
-  # ---------------------------------------------------------------------
-  db-auth:
-    image: mysql:8.0
-    container_name: ferrefix-db-auth
+      - ms-eureka
     environment:
-      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
-      MYSQL_DATABASE: db_auth
-    ports:
-      - "3309:3306"
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+    networks:
+      - hospital-network
 
+  # ==========================================
+  # 4. MICROSERVICIOS DE NEGOCIO
+  # ==========================================
   ms-auth:
     build: ./ms-auth
-    container_name: ferrefix-ms-auth
+    container_name: hospital-ms-auth
     depends_on:
-      - db-auth
+      - db-hospital
+      - ms-eureka
     ports:
       - "8081:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-auth:3306/db_auth
+      - SERVER_PORT=8080 # Sobrescribe el puerto interno para evitar conflictos con application.properties
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-hospital:3306/db_auth?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
     restart: on-failure
-
-  # ---------------------------------------------------------------------
-  # MICROSERVICIO: PACIENTES
-  # ---------------------------------------------------------------------
-  db-pacientes:
-    image: mysql:8.0
-    container_name: ferrefix-db-pacientes
-    environment:
-      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
-      MYSQL_DATABASE: db_pacientes
-    ports:
-      - "3310:3306"
+    networks:
+      - hospital-network
 
   ms-pacientes:
     build: ./ms-pacientes
-    container_name: ferrefix-ms-pacientes
+    container_name: hospital-ms-pacientes
     depends_on:
-      - db-pacientes
+      - db-hospital
+      - ms-eureka
     ports:
       - "8082:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-pacientes:3306/db_pacientes
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-hospital:3306/db_pacientes?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
     restart: on-failure
-
-  # ---------------------------------------------------------------------
-  # MICROSERVICIO: MEDICOS
-  # ---------------------------------------------------------------------
-  db-medicos:
-    image: mysql:8.0
-    container_name: ferrefix-db-medicos
-    environment:
-      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
-      MYSQL_DATABASE: db_medicos
-    ports:
-      - "3311:3306"
+    networks:
+      - hospital-network
 
   ms-medicos:
     build: ./ms-medicos
-    container_name: ferrefix-ms-medicos
+    container_name: hospital-ms-medicos
     depends_on:
-      - db-medicos
+      - db-hospital
+      - ms-eureka
     ports:
       - "8083:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-medicos:3306/db_medicos
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-hospital:3306/db_medicos?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
     restart: on-failure
-
-  # ---------------------------------------------------------------------
-  # MICROSERVICIO: CITAMEDICA
-  # ---------------------------------------------------------------------
-  db-citamedica:
-    image: mysql:8.0
-    container_name: ferrefix-db-citamedica
-    environment:
-      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
-      MYSQL_DATABASE: db_citamedica
-    ports:
-      - "3312:3306"
+    networks:
+      - hospital-network
 
   ms-citamedica:
     build: ./ms-citamedica
-    container_name: ferrefix-ms-citamedica
+    container_name: hospital-ms-citamedica
     depends_on:
-      - db-citamedica
+      - db-hospital
+      - ms-eureka
     ports:
       - "8084:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-citamedica:3306/db_citamedica
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-hospital:3306/db_citamedica?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
     restart: on-failure
-
-  # ---------------------------------------------------------------------
-  # MICROSERVICIO: INVENTARIO
-  # ---------------------------------------------------------------------
-  db-inventario:
-    image: mysql:8.0
-    container_name: ferrefix-db-inventario
-    environment:
-      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
-      MYSQL_DATABASE: db_inventario
-    ports:
-      - "3313:3306"
+    networks:
+      - hospital-network
 
   ms-inventario:
     build: ./ms-inventario
-    container_name: ferrefix-ms-inventario
+    container_name: hospital-ms-inventario
     depends_on:
-      - db-inventario
+      - db-hospital
+      - ms-eureka
     ports:
       - "8085:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-inventario:3306/db_inventario
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-hospital:3306/db_inventario?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
     restart: on-failure
-
-  # ---------------------------------------------------------------------
-  # MICROSERVICIO: AGENDA
-  # ---------------------------------------------------------------------
-  db-agenda:
-    image: mysql:8.0
-    container_name: ferrefix-db-agenda
-    environment:
-      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
-      MYSQL_DATABASE: db_agenda
-    ports:
-      - "3314:3306"
+    networks:
+      - hospital-network
 
   ms-agenda:
     build: ./ms-agenda
-    container_name: ferrefix-ms-agenda
+    container_name: hospital-ms-agenda
     depends_on:
-      - db-agenda
+      - db-hospital
+      - ms-eureka
     ports:
       - "8086:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-agenda:3306/db_agenda
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-hospital:3306/db_agenda?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
     restart: on-failure
-
-  # ---------------------------------------------------------------------
-  # MICROSERVICIO: FACTURACION
-  # ---------------------------------------------------------------------
-  db-facturacion:
-    image: mysql:8.0
-    container_name: ferrefix-db-facturacion
-    environment:
-      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
-      MYSQL_DATABASE: db_facturacion
-    ports:
-      - "3315:3306"
+    networks:
+      - hospital-network
 
   ms-facturacion:
     build: ./ms-facturacion
-    container_name: ferrefix-ms-facturacion
+    container_name: hospital-ms-facturacion
     depends_on:
-      - db-facturacion
+      - db-hospital
+      - ms-eureka
     ports:
       - "8087:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-facturacion:3306/db_facturacion
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-hospital:3306/db_facturacion?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
     restart: on-failure
-
-  # ---------------------------------------------------------------------
-  # MICROSERVICIO: HISTORIAL
-  # ---------------------------------------------------------------------
-  db-historial:
-    image: mysql:8.0
-    container_name: ferrefix-db-historial
-    environment:
-      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
-      MYSQL_DATABASE: db_historial
-    ports:
-      - "3316:3306"
+    networks:
+      - hospital-network
 
   ms-historial:
     build: ./ms-historial
-    container_name: ferrefix-ms-historial
+    container_name: hospital-ms-historial
     depends_on:
-      - db-historial
+      - db-hospital
+      - ms-eureka
     ports:
       - "8088:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-historial:3306/db_historial
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-hospital:3306/db_historial?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
     restart: on-failure
-
-  # ---------------------------------------------------------------------
-  # MICROSERVICIO: CONSULTAS
-  # ---------------------------------------------------------------------
-  db-consultas:
-    image: mysql:8.0
-    container_name: ferrefix-db-consultas
-    environment:
-      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
-      MYSQL_DATABASE: db_consultas
-    ports:
-      - "3317:3306"
+    networks:
+      - hospital-network
 
   ms-consultas:
     build: ./ms-consultas
-    container_name: ferrefix-ms-consultas
+    container_name: hospital-ms-consultas
     depends_on:
-      - db-consultas
+      - db-hospital
+      - ms-eureka
     ports:
       - "8089:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-consultas:3306/db_consultas
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-hospital:3306/db_consultas?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
     restart: on-failure
-
-  # ---------------------------------------------------------------------
-  # MICROSERVICIO: PROVEEDORES
-  # ---------------------------------------------------------------------
-  db-proveedores:
-    image: mysql:8.0
-    container_name: ferrefix-db-proveedores
-    environment:
-      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
-      MYSQL_DATABASE: db_proveedores
-    ports:
-      - "3318:3306"
+    networks:
+      - hospital-network
 
   ms-proveedores:
     build: ./ms-proveedores
-    container_name: ferrefix-ms-proveedores
+    container_name: hospital-ms-proveedores
     depends_on:
-      - db-proveedores
+      - db-hospital
+      - ms-eureka
     ports:
       - "8090:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-proveedores:3306/db_proveedores
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-hospital:3306/db_proveedores?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
     restart: on-failure
-
-  # ---------------------------------------------------------------------
-  # MICROSERVICIO: LABORATORIO
-  # ---------------------------------------------------------------------
-  db-laboratorio:
-    image: mysql:8.0
-    container_name: ferrefix-db-laboratorio
-    environment:
-      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
-      MYSQL_DATABASE: db_laboratorio
-    ports:
-      - "3319:3306"
+    networks:
+      - hospital-network
 
   ms-laboratorio:
     build: ./ms-laboratorio
-    container_name: ferrefix-ms-laboratorio
+    container_name: hospital-ms-laboratorio
     depends_on:
-      - db-laboratorio
+      - db-hospital
+      - ms-eureka
     ports:
       - "8091:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-laboratorio:3306/db_laboratorio
+      - SERVER_PORT=8080
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://ms-eureka:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-hospital:3306/db_laboratorio?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
     restart: on-failure
+    networks:
+      - hospital-network

@@ -8,16 +8,14 @@ RUN chmod +x mvnw
 
 RUN ./mvnw dependency:go-offline
 
-# Copiar el código fuente
 COPY src ./src
-
 RUN ./mvnw clean package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
-COPY --from=builder /app/target/ms-auth-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/target/ms-eureka-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 8091
+EXPOSE 8761
 
 ENTRYPOINT ["java", "-Xms128m", "-Xmx256m", "-jar", "app.jar"]
