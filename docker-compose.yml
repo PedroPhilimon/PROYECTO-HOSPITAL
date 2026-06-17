@@ -33,7 +33,7 @@ services:
       - "3309:3306"
 
   ms-auth:
-    build: ./ms_auth
+    build: ./ms-auth
     container_name: ferrefix-ms-auth
     depends_on:
       - db-auth
@@ -58,7 +58,7 @@ services:
       - "3310:3306"
 
   ms-pacientes:
-    build: ./ms_pacientes
+    build: ./ms-pacientes
     container_name: ferrefix-ms-pacientes
     depends_on:
       - db-pacientes
@@ -83,7 +83,7 @@ services:
       - "3311:3306"
 
   ms-medicos:
-    build: ./ms_medicos
+    build: ./ms-medicos
     container_name: ferrefix-ms-medicos
     depends_on:
       - db-medicos
@@ -108,7 +108,7 @@ services:
       - "3312:3306"
 
   ms-citamedica:
-    build: ./ms_citamedica
+    build: ./ms-citamedica
     container_name: ferrefix-ms-citamedica
     depends_on:
       - db-citamedica
@@ -133,7 +133,7 @@ services:
       - "3313:3306"
 
   ms-inventario:
-    build: ./ms_inventario
+    build: ./ms-inventario
     container_name: ferrefix-ms-inventario
     depends_on:
       - db-inventario
@@ -158,7 +158,7 @@ services:
       - "3314:3306"
 
   ms-agenda:
-    build: ./ms_agenda
+    build: ./ms-agenda
     container_name: ferrefix-ms-agenda
     depends_on:
       - db-agenda
@@ -183,7 +183,7 @@ services:
       - "3315:3306"
 
   ms-facturacion:
-    build: ./ms_facturacion
+    build: ./ms-facturacion
     container_name: ferrefix-ms-facturacion
     depends_on:
       - db-facturacion
@@ -208,7 +208,7 @@ services:
       - "3316:3306"
 
   ms-historial:
-    build: ./ms_historial
+    build: ./ms-historial
     container_name: ferrefix-ms-historial
     depends_on:
       - db-historial
@@ -233,7 +233,7 @@ services:
       - "3317:3306"
 
   ms-consultas:
-    build: ./ms_consultas
+    build: ./ms-consultas
     container_name: ferrefix-ms-consultas
     depends_on:
       - db-consultas
@@ -258,7 +258,7 @@ services:
       - "3318:3306"
 
   ms-proveedores:
-    build: ./ms_proveedores
+    build: ./ms-proveedores
     container_name: ferrefix-ms-proveedores
     depends_on:
       - db-proveedores
@@ -283,7 +283,7 @@ services:
       - "3319:3306"
 
   ms-laboratorio:
-    build: ./ms_laboratorio
+    build: ./ms-laboratorio
     container_name: ferrefix-ms-laboratorio
     depends_on:
       - db-laboratorio
