@@ -1,0 +1,11 @@
+com\microservicio_auth\ms_auth\model\User.class
+com\microservicio_auth\ms_auth\model\Role.class
+com\microservicio_auth\ms_auth\dto\AuthResponse.class
+com\microservicio_auth\ms_auth\dto\LoginRequest.class
+com\microservicio_auth\ms_auth\dto\RegisterRequest.class
+com\microservicio_auth\ms_auth\config\AuthFilter.class
+com\microservicio_auth\ms_auth\controller\AuthController.class
+com\microservicio_auth\ms_auth\service\AuthService.class
+com\microservicio_auth\ms_auth\MsAuthApplication.class
+com\microservicio_auth\ms_auth\config\SecurityConfig.class
+com\microservicio_auth\ms_auth\repository\UserRepository.class

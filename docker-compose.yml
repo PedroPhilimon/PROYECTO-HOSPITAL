@@ -1,0 +1,296 @@
+services:
+  # ---------------------------------------------------------------------
+  # EL GATEWAY
+  # ---------------------------------------------------------------------
+  ms-gateway:
+    build: ./ms-gateway
+    container_name: ferrefix-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ms-auth
+      - ms-pacientes
+      - ms-medicos
+      - ms-citamedica
+      - ms-inventario
+      - ms-agenda
+      - ms-facturacion
+      - ms-historial
+      - ms-consultas
+      - ms-proveedores
+      - ms-laboratorio      
+
+  # ---------------------------------------------------------------------
+  # MICROSERVICIO: AUTH
+  # ---------------------------------------------------------------------
+  db-auth:
+    image: mysql:8.0
+    container_name: ferrefix-db-auth
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+      MYSQL_DATABASE: db_auth
+    ports:
+      - "3309:3306"
+
+  ms-auth:
+    build: ./ms_auth
+    container_name: ferrefix-ms-auth
+    depends_on:
+      - db-auth
+    ports:
+      - "8081:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-auth:3306/db_auth
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
+    restart: on-failure
+
+  # ---------------------------------------------------------------------
+  # MICROSERVICIO: PACIENTES
+  # ---------------------------------------------------------------------
+  db-pacientes:
+    image: mysql:8.0
+    container_name: ferrefix-db-pacientes
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+      MYSQL_DATABASE: db_pacientes
+    ports:
+      - "3310:3306"
+
+  ms-pacientes:
+    build: ./ms_pacientes
+    container_name: ferrefix-ms-pacientes
+    depends_on:
+      - db-pacientes
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-pacientes:3306/db_pacientes
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
+    restart: on-failure
+
+  # ---------------------------------------------------------------------
+  # MICROSERVICIO: MEDICOS
+  # ---------------------------------------------------------------------
+  db-medicos:
+    image: mysql:8.0
+    container_name: ferrefix-db-medicos
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+      MYSQL_DATABASE: db_medicos
+    ports:
+      - "3311:3306"
+
+  ms-medicos:
+    build: ./ms_medicos
+    container_name: ferrefix-ms-medicos
+    depends_on:
+      - db-medicos
+    ports:
+      - "8083:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-medicos:3306/db_medicos
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
+    restart: on-failure
+
+  # ---------------------------------------------------------------------
+  # MICROSERVICIO: CITAMEDICA
+  # ---------------------------------------------------------------------
+  db-citamedica:
+    image: mysql:8.0
+    container_name: ferrefix-db-citamedica
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+      MYSQL_DATABASE: db_citamedica
+    ports:
+      - "3312:3306"
+
+  ms-citamedica:
+    build: ./ms_citamedica
+    container_name: ferrefix-ms-citamedica
+    depends_on:
+      - db-citamedica
+    ports:
+      - "8084:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-citamedica:3306/db_citamedica
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
+    restart: on-failure
+
+  # ---------------------------------------------------------------------
+  # MICROSERVICIO: INVENTARIO
+  # ---------------------------------------------------------------------
+  db-inventario:
+    image: mysql:8.0
+    container_name: ferrefix-db-inventario
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+      MYSQL_DATABASE: db_inventario
+    ports:
+      - "3313:3306"
+
+  ms-inventario:
+    build: ./ms_inventario
+    container_name: ferrefix-ms-inventario
+    depends_on:
+      - db-inventario
+    ports:
+      - "8085:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-inventario:3306/db_inventario
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
+    restart: on-failure
+
+  # ---------------------------------------------------------------------
+  # MICROSERVICIO: AGENDA
+  # ---------------------------------------------------------------------
+  db-agenda:
+    image: mysql:8.0
+    container_name: ferrefix-db-agenda
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+      MYSQL_DATABASE: db_agenda
+    ports:
+      - "3314:3306"
+
+  ms-agenda:
+    build: ./ms_agenda
+    container_name: ferrefix-ms-agenda
+    depends_on:
+      - db-agenda
+    ports:
+      - "8086:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-agenda:3306/db_agenda
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
+    restart: on-failure
+
+  # ---------------------------------------------------------------------
+  # MICROSERVICIO: FACTURACION
+  # ---------------------------------------------------------------------
+  db-facturacion:
+    image: mysql:8.0
+    container_name: ferrefix-db-facturacion
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+      MYSQL_DATABASE: db_facturacion
+    ports:
+      - "3315:3306"
+
+  ms-facturacion:
+    build: ./ms_facturacion
+    container_name: ferrefix-ms-facturacion
+    depends_on:
+      - db-facturacion
+    ports:
+      - "8087:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-facturacion:3306/db_facturacion
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
+    restart: on-failure
+
+  # ---------------------------------------------------------------------
+  # MICROSERVICIO: HISTORIAL
+  # ---------------------------------------------------------------------
+  db-historial:
+    image: mysql:8.0
+    container_name: ferrefix-db-historial
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+      MYSQL_DATABASE: db_historial
+    ports:
+      - "3316:3306"
+
+  ms-historial:
+    build: ./ms_historial
+    container_name: ferrefix-ms-historial
+    depends_on:
+      - db-historial
+    ports:
+      - "8088:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-historial:3306/db_historial
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
+    restart: on-failure
+
+  # ---------------------------------------------------------------------
+  # MICROSERVICIO: CONSULTAS
+  # ---------------------------------------------------------------------
+  db-consultas:
+    image: mysql:8.0
+    container_name: ferrefix-db-consultas
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+      MYSQL_DATABASE: db_consultas
+    ports:
+      - "3317:3306"
+
+  ms-consultas:
+    build: ./ms_consultas
+    container_name: ferrefix-ms-consultas
+    depends_on:
+      - db-consultas
+    ports:
+      - "8089:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-consultas:3306/db_consultas
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
+    restart: on-failure
+
+  # ---------------------------------------------------------------------
+  # MICROSERVICIO: PROVEEDORES
+  # ---------------------------------------------------------------------
+  db-proveedores:
+    image: mysql:8.0
+    container_name: ferrefix-db-proveedores
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+      MYSQL_DATABASE: db_proveedores
+    ports:
+      - "3318:3306"
+
+  ms-proveedores:
+    build: ./ms_proveedores
+    container_name: ferrefix-ms-proveedores
+    depends_on:
+      - db-proveedores
+    ports:
+      - "8090:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-proveedores:3306/db_proveedores
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
+    restart: on-failure
+
+  # ---------------------------------------------------------------------
+  # MICROSERVICIO: LABORATORIO
+  # ---------------------------------------------------------------------
+  db-laboratorio:
+    image: mysql:8.0
+    container_name: ferrefix-db-laboratorio
+    environment:
+      MYSQL_ROOT_PASSWORD: iha3gaFBMMzwiee8
+      MYSQL_DATABASE: db_laboratorio
+    ports:
+      - "3319:3306"
+
+  ms-laboratorio:
+    build: ./ms_laboratorio
+    container_name: ferrefix-ms-laboratorio
+    depends_on:
+      - db-laboratorio
+    ports:
+      - "8091:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-laboratorio:3306/db_laboratorio
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=iha3gaFBMMzwiee8
+    restart: on-failure
