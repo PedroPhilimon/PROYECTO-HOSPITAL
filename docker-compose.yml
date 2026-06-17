@@ -38,7 +38,7 @@ services:
     depends_on:
       - db-auth
     ports:
-      - "8081:8082"
+      - "8081:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-auth:3306/db_auth
       - SPRING_DATASOURCE_USERNAME=root
@@ -63,7 +63,7 @@ services:
     depends_on:
       - db-pacientes
     ports:
-      - "8082:8082"
+      - "8082:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-pacientes:3306/db_pacientes
       - SPRING_DATASOURCE_USERNAME=root
@@ -88,7 +88,7 @@ services:
     depends_on:
       - db-medicos
     ports:
-      - "8083:8082"
+      - "8083:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-medicos:3306/db_medicos
       - SPRING_DATASOURCE_USERNAME=root
@@ -113,7 +113,7 @@ services:
     depends_on:
       - db-citamedica
     ports:
-      - "8084:8082"
+      - "8084:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-citamedica:3306/db_citamedica
       - SPRING_DATASOURCE_USERNAME=root
@@ -138,7 +138,7 @@ services:
     depends_on:
       - db-inventario
     ports:
-      - "8085:8082"
+      - "8085:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-inventario:3306/db_inventario
       - SPRING_DATASOURCE_USERNAME=root
@@ -163,7 +163,7 @@ services:
     depends_on:
       - db-agenda
     ports:
-      - "8086:8082"
+      - "8086:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-agenda:3306/db_agenda
       - SPRING_DATASOURCE_USERNAME=root
@@ -188,7 +188,7 @@ services:
     depends_on:
       - db-facturacion
     ports:
-      - "8087:8082"
+      - "8087:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-facturacion:3306/db_facturacion
       - SPRING_DATASOURCE_USERNAME=root
@@ -213,7 +213,7 @@ services:
     depends_on:
       - db-historial
     ports:
-      - "8088:8082"
+      - "8088:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-historial:3306/db_historial
       - SPRING_DATASOURCE_USERNAME=root
@@ -238,7 +238,7 @@ services:
     depends_on:
       - db-consultas
     ports:
-      - "8089:8082"
+      - "8089:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-consultas:3306/db_consultas
       - SPRING_DATASOURCE_USERNAME=root
@@ -263,7 +263,7 @@ services:
     depends_on:
       - db-proveedores
     ports:
-      - "8090:8082"
+      - "8090:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-proveedores:3306/db_proveedores
       - SPRING_DATASOURCE_USERNAME=root
@@ -288,7 +288,7 @@ services:
     depends_on:
       - db-laboratorio
     ports:
-      - "8091:8082"
+      - "8091:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db-laboratorio:3306/db_laboratorio
       - SPRING_DATASOURCE_USERNAME=root
