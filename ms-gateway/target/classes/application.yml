@@ -1,0 +1,118 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+
+            # MICROSERVICIO: PACIENTES
+            - id: pacientes
+              uri: lb://ms-pacientes
+              predicates:
+                - Path=/api/pacientes/**
+
+            - id: historial-pacientes
+              uri: lb://ms-pacientes
+              predicates:
+                - Path=/api/historiales/**
+
+            # MICROSERVICIO: PROVEEDORES
+            - id: proveedores
+              uri: lb://ms-proveedores
+              predicates:
+                - Path=/api/proveedores/**
+
+            - id: ordenes-compra
+              uri: lb://ms-proveedores
+              predicates:
+                - Path=/api/ordenes-compra/**
+
+            # MICROSERVICIO: MEDICOS
+            - id: medicos
+              uri: lb://ms-medicos
+              predicates:
+                - Path=/api/medicos/**
+
+            - id: especiales
+              uri: lb://ms-medicos
+              predicates:
+                - Path=/api/especialidades/**
+
+            # MICROSERVICIO: CITAS MÉDICAS
+            - id: citamedica
+              uri: lb://ms-citamedica
+              predicates:
+                - Path=/api/citas/**
+
+            - id: salas
+              uri: lb://ms-citamedica
+              predicates:
+                - Path=/api/salas/**
+
+            # MICROSERVICIO: INVENTARIO
+            - id: inventario
+              uri: lb://ms-inventario
+              predicates:
+                - Path=/api/productos/**
+            
+            - id: movimientos
+              uri: lb://ms-inventario
+              predicates:
+                - Path=/api/movimientos/**
+
+            # MICROSERVICIO: AGENDAS MÉDICAS
+            - id: agendas
+              uri: lb://ms-agenda
+              predicates:
+                - Path=/api/agendas/**
+            
+            - id: asignaciones
+              uri: lb://ms-agenda
+              predicates:
+                - Path=/api/asignaciones-salas/**
+
+            # MICROSERVICIO: FACTURACIÓN
+            - id: facturas
+              uri: lb://ms-facturacion
+              predicates:
+                - Path=/api/facturas/**    
+
+            # MICROSERVICIO: HISTORIAL
+            - id: historiales
+              uri: lb://ms-historial
+              predicates:
+                - Path=/api/historiales-clinicos/**
+
+            - id: registros
+              uri: lb://ms-historial
+              predicates:
+                - Path=/api/registros/**
+
+            # MICROSERVICIO: CONSULTAS
+            - id: consultas
+              uri: lb://ms-consultas
+              predicates:
+                - Path=/api/consultas/**
+
+            # MICROSERVICIO: LABORATORIO
+            - id: ordenes
+              uri: lb://ms-laboratorio
+              predicates:
+                - Path=/api/ordenes/**
+
+            - id: examenes
+              uri: lb://ms-laboratorio
+              predicates:
+                - Path=/api/examenes/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
