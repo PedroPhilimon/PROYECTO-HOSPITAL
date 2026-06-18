@@ -15,8 +15,8 @@ CREATE TABLE salas (
 --changeset pedro:2
 CREATE TABLE citas (
     id_cita BIGINT AUTO_INCREMENT PRIMARY KEY,
-    pacienteId BIGINT NOT NULL,
-    medicoId BIGINT NOT NULL,
+    paciente_id BIGINT NOT NULL,
+    medico_id BIGINT NOT NULL,
     sala_id BIGINT, -- Columna añadida para la relación
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
