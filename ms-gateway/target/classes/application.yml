@@ -9,6 +9,11 @@ spring:
       server:
         webmvc:
           routes:
+            # MICROSERVICIO: AUTH
+            - id: auth
+              uri: lb://ms-auth
+              predicates:
+                - Path=/api/auth/**
 
             # MICROSERVICIO: PACIENTES
             - id: pacientes
@@ -16,17 +21,11 @@ spring:
               predicates:
                 - Path=/api/pacientes/**
 
-            - id: historial-pacientes
-              uri: lb://ms-pacientes
-              predicates:
-                - Path=/api/historiales/**
-
             # MICROSERVICIO: PROVEEDORES
             - id: proveedores
               uri: lb://ms-proveedores
               predicates:
                 - Path=/api/proveedores/**
-
             - id: ordenes-compra
               uri: lb://ms-proveedores
               predicates:
@@ -37,7 +36,6 @@ spring:
               uri: lb://ms-medicos
               predicates:
                 - Path=/api/medicos/**
-
             - id: especiales
               uri: lb://ms-medicos
               predicates:
@@ -48,7 +46,6 @@ spring:
               uri: lb://ms-citamedica
               predicates:
                 - Path=/api/citas/**
-
             - id: salas
               uri: lb://ms-citamedica
               predicates:
@@ -58,8 +55,7 @@ spring:
             - id: inventario
               uri: lb://ms-inventario
               predicates:
-                - Path=/api/productos/**
-            
+                - Path=/api/productos/**         
             - id: movimientos
               uri: lb://ms-inventario
               predicates:
@@ -69,8 +65,7 @@ spring:
             - id: agendas
               uri: lb://ms-agenda
               predicates:
-                - Path=/api/agendas/**
-            
+                - Path=/api/agendas/**         
             - id: asignaciones
               uri: lb://ms-agenda
               predicates:
@@ -80,14 +75,13 @@ spring:
             - id: facturas
               uri: lb://ms-facturacion
               predicates:
-                - Path=/api/facturas/**    
-
+                - Path=/api/facturas/**
+                
             # MICROSERVICIO: HISTORIAL
             - id: historiales
               uri: lb://ms-historial
               predicates:
-                - Path=/api/historiales-clinicos/**
-
+                - Path=/api/historiales/**
             - id: registros
               uri: lb://ms-historial
               predicates:
@@ -104,7 +98,6 @@ spring:
               uri: lb://ms-laboratorio
               predicates:
                 - Path=/api/ordenes/**
-
             - id: examenes
               uri: lb://ms-laboratorio
               predicates:

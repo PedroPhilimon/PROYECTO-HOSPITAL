@@ -4,9 +4,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "ms-citamedica", url = "http://localhost:8082/api/citas")
+@FeignClient(name = "ms-citamedica")
 public interface CitaMedicaClient {
     
-    @GetMapping("/{id}")
+    @GetMapping("/api/citas/{id}")
     Object buscarPorId(@PathVariable("id") Long id);
 }
