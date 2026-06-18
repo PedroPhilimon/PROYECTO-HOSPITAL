@@ -19,7 +19,7 @@ public class HistorialPaciente {
     private Long id;
 
     @NotBlank(message = "el diagnostico no puede estar vacío")
-    private String diagonostico;
+    private String diagnostico;
     @NotBlank(message = "el antecedente no puede estar vacío")
     private String antecedentes;
     @NotBlank(message = "El tipo de sangre no puede estar vacío")

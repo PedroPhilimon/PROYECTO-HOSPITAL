@@ -13,7 +13,7 @@ public class HistorialResponseDTO {
     public static HistorialResponseDTO fromEntity(HistorialPaciente historial) {
         HistorialResponseDTO dto = new HistorialResponseDTO();
         dto.setId(historial.getId());
-        dto.setDiagnostico(historial.getDiagonostico());
+        dto.setDiagnostico(historial.getDiagnostico());
         dto.setAntecedentes(historial.getAntecedentes()); // <--- Corregido aquí
         dto.setTipoSangre(historial.getTipoSangre());
         return dto;

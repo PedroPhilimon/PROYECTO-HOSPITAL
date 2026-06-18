@@ -30,7 +30,7 @@ public class HistorialServiceImpl implements HistorialPacienteService {
 
         //Crear la entidad y asignar datos
         HistorialPaciente historial = new HistorialPaciente();
-        historial.setDiagonostico(dto.getDiagnostico());
+        historial.setDiagnostico(dto.getDiagnostico());
         historial.setAntecedentes(dto.getAntecedentes());
         historial.setTipoSangre(dto.getTipoSangre());
         historial.setPaciente(paciente); // Aquí se hace la unión
