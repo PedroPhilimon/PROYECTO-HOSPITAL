@@ -25,6 +25,6 @@ public class AsignacionSala {
     private String motivoBloqueo;
     
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_agenda", nullable = false)
+    @JoinColumn(name = "id_agenda")
     private AgendaMedico agendaMedico;
 }

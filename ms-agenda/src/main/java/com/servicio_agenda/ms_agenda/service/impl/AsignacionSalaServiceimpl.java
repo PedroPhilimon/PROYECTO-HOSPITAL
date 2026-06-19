@@ -35,6 +35,7 @@ public class AsignacionSalaServiceimpl implements AsignacionSalaService {
     @Override
     @Transactional
     public AsignacionSalaResponseDTO guardar(AsignacionSalaRequestDTO dto, Long idAgenda) {
+        // AQUÍ CAMBIAMOS LA PALABRA "sala" POR "Agenda Médica"
         AgendaMedico agenda = agendaRepository.findById(idAgenda)
                 .orElseThrow(() -> new RuntimeException("La Agenda Médica con ID " + idAgenda + " no existe."));
 

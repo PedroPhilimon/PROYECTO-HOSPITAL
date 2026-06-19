@@ -1,7 +1,8 @@
 --liquibase formatted sql
+DROP TABLE IF EXISTS asignaciones_salas;
+DROP TABLE IF EXISTS agendas_medicos;
 
-
---changeset pedro:1
+--changeset pablo:1
 CREATE TABLE agendas_medicos (
     id_agenda BIGINT AUTO_INCREMENT PRIMARY KEY,
     id_medico BIGINT NOT NULL,
@@ -10,12 +11,10 @@ CREATE TABLE agendas_medicos (
     estado VARCHAR(50) NOT NULL
 );
 
---changeset pedro:2
+--changeset pablo:2
 CREATE TABLE asignaciones_salas (
     id_asignacion BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id_agenda BIGINT,
     id_sala BIGINT NOT NULL,
-    motivo_bloqueo VARCHAR(255),
-    id_agenda BIGINT NOT NULL,
-    CONSTRAINT fk_agenda_asignacion FOREIGN KEY (id_agenda) 
-        REFERENCES agendas_medicos(id_agenda) ON DELETE CASCADE
+    motivo_bloqueo VARCHAR(255) NOT NULL
 );
