@@ -20,6 +20,10 @@ spring:
               uri: lb://ms-pacientes
               predicates:
                 - Path=/api/pacientes/**
+            - id: historial_paciente
+              uri: lb://ms-pacientes
+              predicates:
+                - Path=/api/historiales/**
 
             # MICROSERVICIO: PROVEEDORES
             - id: proveedores

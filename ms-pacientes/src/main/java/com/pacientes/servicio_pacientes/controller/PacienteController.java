@@ -24,12 +24,14 @@ import com.pacientes.servicio_pacientes.dto.PacienteResponseDTO;
 import com.pacientes.servicio_pacientes.service.PacienteService;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 
 
 @RestController
 @RequestMapping("/api/pacientes")
 @Tag(name = "Pacientes", description = "Operaciones relacionadas con los pacientes")
+@Slf4j
 public class PacienteController {
 
     private final PacienteService pacienteService;
@@ -51,6 +53,7 @@ public class PacienteController {
             }
     )
     public ResponseEntity<List<PacienteResponseDTO>> findAll() {
+        log.info("Recibida petición para obtener todos los pacientes");
         List<PacienteResponseDTO> pacientes = pacienteService.findAll();
         return ResponseEntity.ok(pacientes);
     }
@@ -83,6 +86,7 @@ public class PacienteController {
             }
     )
     public ResponseEntity<PacienteResponseDTO> create(@Valid @RequestBody PacienteRequestDTO dto) {
+        log.info("Recibida petición para crear un nuevo paciente con RUN: {}", dto.getRun()); // <-- 2. Registras la acción
         PacienteResponseDTO crearPaciente = pacienteService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(crearPaciente);
     }
@@ -99,6 +103,7 @@ public class PacienteController {
             }
     )
     public ResponseEntity<PacienteResponseDTO> update(@PathVariable Long id, @Valid @RequestBody PacienteRequestDTO dto) {
+        log.info("Recibida petición para actualizar el paciente con ID: {} - Nuevo RUN: {}", id, dto.getRun());
         PacienteResponseDTO actualizarPaciente = pacienteService.update(id, dto);
         return ResponseEntity.ok(actualizarPaciente);
     }
@@ -118,6 +123,7 @@ public class PacienteController {
         }
 )
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Recibida petición para eliminar el paciente con ID: {}", id);
         pacienteService.delete(id);
         return ResponseEntity.noContent().build();
     }

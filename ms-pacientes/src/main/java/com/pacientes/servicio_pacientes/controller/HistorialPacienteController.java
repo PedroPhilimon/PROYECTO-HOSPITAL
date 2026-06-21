@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import java.util.List;
 @RequestMapping("/api/historiales")
 @Tag(name = "Historiales", description = "Operaciones relacionadas con el historial de los pacientes")
 @RequiredArgsConstructor
+@Slf4j
 public class HistorialPacienteController {
     
     private final HistorialPacienteService historialService;
@@ -36,6 +39,7 @@ public class HistorialPacienteController {
             }
     )
     public ResponseEntity<HistorialResponseDTO> create(@PathVariable Long pacienteId, @RequestBody HistorialRequestDTO dto) {
+        log.info("Recibida petición para crear un historial al paciente con ID: {}", pacienteId);
         return new ResponseEntity<>(historialService.create(pacienteId, dto), HttpStatus.CREATED);
     }
 
@@ -51,6 +55,7 @@ public class HistorialPacienteController {
             }
     )
     public ResponseEntity<List<HistorialResponseDTO>> getByPaciente(@PathVariable Long pacienteId) {
+        log.info("Recibida petición para obtener los historiales del paciente con ID: {}", pacienteId);
         return ResponseEntity.ok(historialService.findByPacienteId(pacienteId));
     }
 
@@ -69,6 +74,7 @@ public class HistorialPacienteController {
         }
 )
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Recibida petición para eliminar el historial con ID: {}", id);
         historialService.delete(id);
         return ResponseEntity.noContent().build();
     }
