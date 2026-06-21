@@ -22,9 +22,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("api/especialidades")
+@Slf4j
 public class EspecialidadController {
 
     private final EspecialidadService especialidadService;
@@ -44,6 +46,7 @@ public class EspecialidadController {
     )
     @GetMapping
     public ResponseEntity<List<EspecialidadResponseDTO>> findAll() {
+        log.info("Solicitud recibida para obtener todas las especialidades");
         List<EspecialidadResponseDTO> especialidades = especialidadService.findAll();
         return ResponseEntity.ok(especialidades);
     }
@@ -60,6 +63,7 @@ public class EspecialidadController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<EspecialidadResponseDTO> findByDto(@PathVariable Long id) {
+        log.info("Solicitud recibida para buscar especialidad con id: {}",id);
         EspecialidadResponseDTO buscarMedicoId = especialidadService.findById(id);
         return ResponseEntity.ok(buscarMedicoId);
     }
@@ -76,6 +80,7 @@ public class EspecialidadController {
     )
     @PostMapping
     public ResponseEntity<EspecialidadResponseDTO> create(@Valid @RequestBody EspecialidadRequestDTO dto) {
+        log.info("Solicitud recibida para crear especialidad: {}",dto);
         EspecialidadResponseDTO crearMedico = especialidadService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(crearMedico);
     }

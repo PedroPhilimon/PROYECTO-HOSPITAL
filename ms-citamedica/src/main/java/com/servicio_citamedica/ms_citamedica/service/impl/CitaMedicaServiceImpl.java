@@ -16,9 +16,11 @@ import com.servicio_citamedica.ms_citamedica.service.CitaMedicaService;
 import com.servicio_citamedica.ms_citamedica.service.SalaAtencionService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CitaMedicaServiceImpl implements CitaMedicaService {
     
     private final CitaMedicaRepository citaMedicaRepository;
@@ -28,6 +30,7 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
 
     @Override
     public List<CitaResponseDTO> findAll() {
+        log.info("Obteniendo todas las citas médicas...");
         return citaMedicaRepository.findAll()
                 .stream()
                 .map(CitaResponseDTO::fromEntity) 
@@ -36,13 +39,18 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
 
     @Override
     public CitaResponseDTO findByDto(Long id) {
+        log.info("Buscando cita médica con ID: {}", id);
         return citaMedicaRepository.findById(id)
                 .map(CitaResponseDTO::fromEntity)
-                .orElseThrow(() -> new RuntimeException("No se encontró la cita con ID: " + id));
+                .orElseThrow(() -> {
+                    log.error("No se encontró la cita con ID: {}", id);
+                    return new RuntimeException("No se encontró la cita con ID: " + id);
+                });
     }
 
     @Override
     public CitaResponseDTO create(CitaRequestDTO dto) {
+        log.info("Iniciando creación de cita médica para paciente ID: {} y médico ID: {}", dto.getPacienteId(), dto.getMedicoId());
         validarExistenciaExterna(dto.getPacienteId(), dto.getMedicoId());
 
         CitaMedica citamedica = new CitaMedica();
@@ -57,8 +65,12 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
 
     @Override
     public CitaResponseDTO update(Long id, CitaRequestDTO dto) {
+        log.info("Actualizando cita médica con ID: {}", id);
         CitaMedica cita = citaMedicaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cita no encontrada con ID: " + id));
+                .orElseThrow(() -> {
+                    log.error("Error al actualizar: Cita no encontrada con ID: {}", id);
+                    return new RuntimeException("Cita no encontrada con ID: " + id);
+                });
     
         validarExistenciaExterna(dto.getPacienteId(), dto.getMedicoId());
         actualizarCamposBasicos(cita, dto);
@@ -72,22 +84,28 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
 
     @Override
     public void delete(Long id) {
+        log.info("Intentando eliminar cita médica con ID: {}", id);
         if (!citaMedicaRepository.existsById(id)) {
+            log.error("Error al eliminar: Cita no encontrada con ID: {}", id);
             throw new RuntimeException("No se puede eliminar: Cita no encontrada con ID: " + id);
         }   
         citaMedicaRepository.deleteById(id);
+        log.info("Cita médica con ID: {} eliminada exitosamente", id);
     }
 
     private void validarExistenciaExterna(Long pacienteId, Long medicoId) {
+        log.info("Validando existencia del paciente con ID: {}", pacienteId);
         try {
             pacienteClient.buscarPorId(pacienteId);
         } catch (Exception e) {
+            log.error("Validación fallida el paciente con ID: {}", medicoId);
             throw new RuntimeException("Error: El paciente con ID " + pacienteId + " no existe.");
         }
 
         try {
             medicoClient.buscarPorId(medicoId);
         } catch (Exception e) {
+            log.error("Validación fallida: El médico con ID {} no existe.", pacienteId, e);
             throw new RuntimeException("Error: El médico con ID " + medicoId + " no existe.");
         }
     }
@@ -102,7 +120,9 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
     }
 
     private void asignarSala(CitaMedica cita, Long salaId) {
+        log.info("Asignando sala con ID: {} a la cita médica", salaId);
         if (!salaAtencionService.existsById(salaId)) {
+            log.error("Asignación de sala fallida: La sala con ID {} no existe", salaId);
             throw new RuntimeException("Error: La sala con ID " + salaId + " no existe.");
         }
         

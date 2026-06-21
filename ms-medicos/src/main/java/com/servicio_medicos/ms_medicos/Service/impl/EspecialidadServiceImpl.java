@@ -13,15 +13,17 @@ import com.servicio_medicos.ms_medicos.model.Especialidad;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EspecialidadServiceImpl implements EspecialidadService  {
 
     private final EspecialidadRepository especialidadRepository;
     @Override
     @Transactional
     public EspecialidadResponseDTO create(EspecialidadRequestDTO dto) {
-        
+        log.info("Iniciando creación de especialidad con nombre: {}",dto.getNombre());
         Especialidad especialidad = new Especialidad();
         especialidad.setNombre(dto.getNombre());
 
@@ -37,8 +39,15 @@ public class EspecialidadServiceImpl implements EspecialidadService  {
     @Override
     @Transactional
     public EspecialidadResponseDTO findById(Long id) {
+        log.info("Buscando especialidad con ID: {}", id);
         Especialidad especialidad = especialidadRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Especialidad no encontrada con ID: " + id));
+            .orElseThrow(() -> {
+                    log.error("Especialidad no encontrada con ID: {}", id);
+                    return new RuntimeException(
+                            "Especialidad no encontrada con ID: " + id);
+                });
+        
+        log.info("Especialidad encontrada con ID: {}", id);
 
         EspecialidadResponseDTO response = new EspecialidadResponseDTO();
         response.setId(especialidad.getId());
@@ -49,6 +58,7 @@ public class EspecialidadServiceImpl implements EspecialidadService  {
     @Override
     @Transactional
     public List<EspecialidadResponseDTO> findAll() {
+        log.info("Obteniendo listado de especialidades");
         return especialidadRepository.findAll().stream()
             .map(e -> {
                 EspecialidadResponseDTO dto = new EspecialidadResponseDTO();
@@ -61,10 +71,11 @@ public class EspecialidadServiceImpl implements EspecialidadService  {
     @Override
     @Transactional
     public void delete(Long id) {
-        
+        log.info("Intentando eliminar especialidad con ID: {}", id);
         if (!especialidadRepository.existsById(id)) {
             throw new RuntimeException("No existe la especialidad a eliminar");
         }
         especialidadRepository.deleteById(id);
+        log.info("Especialidad eliminada correctamente con ID: {}", id);
     }
 }

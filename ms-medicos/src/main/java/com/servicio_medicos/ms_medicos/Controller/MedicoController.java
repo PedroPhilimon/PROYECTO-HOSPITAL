@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/medicos")
 @Tag(name = "Médicos", description = "Controller para la gestión de médicos y sus especialidades")
+@Slf4j
 public class MedicoController {
 
     @Autowired
@@ -38,6 +40,7 @@ public class MedicoController {
     )
     @PostMapping
     public ResponseEntity<MedicoResponseDTO> registrarMedico(@Valid @RequestBody MedicoRequestDTO requestDTO) {
+        log.info("Registrando nuevo médico: {} {}", requestDTO.getNombre(), requestDTO.getApellido());
         MedicoResponseDTO responseDTO = medicoService.create(requestDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
@@ -53,6 +56,7 @@ public class MedicoController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<MedicoResponseDTO> obtenerMedicoPorId(@PathVariable Long id) {
+        log.info("Consultando médico con ID: {}", id);
         MedicoResponseDTO responseDTO = medicoService.findById(id);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
@@ -68,6 +72,7 @@ public class MedicoController {
     )
     @GetMapping
     public ResponseEntity<List<MedicoResponseDTO>> listarMedicos() {
+        log.info("Consultando todos los médicos");
         List<MedicoResponseDTO> medicos = medicoService.findAll();
         return new ResponseEntity<>(medicos, HttpStatus.OK);
     }
@@ -84,6 +89,7 @@ public class MedicoController {
     )
     @PutMapping("/{id}")
     public ResponseEntity<MedicoResponseDTO> actualizarMedico(@PathVariable Long id, @Valid @RequestBody MedicoRequestDTO requestDTO) {
+        log.info("Modificando médico con ID: {} ");
         MedicoResponseDTO responseDTO = medicoService.update(id, requestDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
@@ -97,6 +103,7 @@ public class MedicoController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarMedico(@PathVariable Long id) {
+        log.info("eliminando médico con ID: {} ");
         medicoService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
