@@ -1,6 +1,5 @@
 package com.servicio_agenda.ms_agenda.controller;
 
-import com.servicio_agenda.ms_agenda.dto.AgendaMedicoResponseDTO;
 import com.servicio_agenda.ms_agenda.dto.AsignacionSalaRequestDTO;
 import com.servicio_agenda.ms_agenda.dto.AsignacionSalaResponseDTO;
 import com.servicio_agenda.ms_agenda.model.AsignacionSala;
@@ -18,11 +17,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/asignaciones-salas")
+@Slf4j
 @Tag(name = "Asignaciones salas", description = "Operaciones relacionadas con las asignaciones a salas")
 public class AsignacionSalaController {
 
@@ -44,6 +46,7 @@ public class AsignacionSalaController {
             }
     )
     public ResponseEntity<List<AsignacionSala>> listarTodas() {
+        log.info("Solicitud para obtener todas las asignaciones de salas");
         List<AsignacionSala> asignaciones = asignacionSalaService.listarTodas();
         return ResponseEntity.ok(asignaciones);
     }
@@ -60,6 +63,7 @@ public class AsignacionSalaController {
             }
     )
     public ResponseEntity<Optional<AsignacionSala>> obtenerPorId(@PathVariable Long id) {
+        log.info("Solicitud para obtener la asignación de sala con ID: {}", id);
         return ResponseEntity.ok(asignacionSalaService.buscarPorId(id));
     }
 
@@ -75,6 +79,7 @@ public class AsignacionSalaController {
             }
     )
     public ResponseEntity<AsignacionSalaResponseDTO> crearAsignacionSala(@Valid @RequestBody AsignacionSalaRequestDTO dto) {
+        log.info("Solicitud para crear una asignación para la sala ID: {}", dto.getIdSala());
         AsignacionSalaResponseDTO crearAsignacionSala = asignacionSalaService.guardar(dto, dto.getIdSala());
         return ResponseEntity.status(HttpStatus.CREATED).body(crearAsignacionSala);
     }
@@ -95,6 +100,7 @@ public class AsignacionSalaController {
         }
     )
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        log.info("Solicitud para eliminar la asignación de sala con ID: {}", id);
         asignacionSalaService.eliminar(id);
         return ResponseEntity.noContent().build();
     }

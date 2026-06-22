@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/proveedores")
+@Slf4j
 @Tag(name = "Proveedores", description = "Operaciones relacionadas con la gestión de proveedores de insumos médicos")
 public class ProveedorController {
 
@@ -39,6 +42,7 @@ public class ProveedorController {
             }
     )
     public ResponseEntity<List<ProveedorResponseDTO>> findAll() {
+        log.info("Solicitud para obtener todos los proveedores");
         List<ProveedorResponseDTO> proveedores = proveedorService.listarTodos();
         return ResponseEntity.ok(proveedores);
     }
@@ -54,6 +58,7 @@ public class ProveedorController {
             }
     )
     public ResponseEntity<ProveedorResponseDTO> obtenerPorId(@PathVariable Long id) {
+        log.info("Solicitud para obtener el proveedor con ID: {}", id);
         return ResponseEntity.ok(proveedorService.buscarPorId(id));
     }
 
@@ -68,6 +73,7 @@ public class ProveedorController {
             }
     )
     public ResponseEntity<ProveedorResponseDTO> create(@Valid @RequestBody ProveedorRequestDTO dto) {
+        log.info("Solicitud para crear un nuevo proveedor con nombre: '{}'", dto.getNombre());
         ProveedorResponseDTO crearProveedor = proveedorService.guardar(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(crearProveedor);
     }
@@ -83,6 +89,7 @@ public class ProveedorController {
             }
     )
     public ResponseEntity<ProveedorResponseDTO> update(@PathVariable Long id, @Valid @RequestBody ProveedorRequestDTO dto) {
+        log.info("REST request: Solicitud para actualizar el proveedor con ID: {}", id);
         ProveedorResponseDTO actualizarProveedor = proveedorService.actualizar(id, dto);
         return ResponseEntity.ok(actualizarProveedor);
     }
@@ -102,6 +109,7 @@ public class ProveedorController {
         }
     )
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("REST request: Solicitud para eliminar el proveedor con ID: {}", id);
         proveedorService.eliminar(id);
         return ResponseEntity.noContent().build();
     }

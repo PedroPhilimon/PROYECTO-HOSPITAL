@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/movimientos")
 @RequiredArgsConstructor
+@Slf4j
 @Tag(name = "Movimientos de Inventario", description = "Operaciones para registrar y consultar el historial de entradas y salidas de stock")
 public class MovimientoController {
 
@@ -44,6 +47,7 @@ public class MovimientoController {
     )
     @GetMapping
     public ResponseEntity<List<MovimientoResponseDTO>> getAll() {
+        log.info("Solicitud para obtener el historial completo de movimientos");
         return ResponseEntity.ok(movimientoService.findAll());
     }
 
@@ -65,6 +69,7 @@ public class MovimientoController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<MovimientoResponseDTO> getById(@PathVariable Long id) {
+        log.info("Solicitud para obtener el movimiento con ID: {}", id);
         return ResponseEntity.ok(movimientoService.findByDto(id));
     }
 
@@ -90,6 +95,7 @@ public class MovimientoController {
     )
     @PostMapping
     public ResponseEntity<MovimientoResponseDTO> create(@Valid @RequestBody MovimientoRequestDTO dto) {
+        log.info("Solicitud para registrar un nuevo movimiento de tipo [{}] para el producto ID: {}", dto.getTipoMovimiento(), dto.getProductoId());
         MovimientoResponseDTO nuevoMovimiento = movimientoService.save(dto);
         return new ResponseEntity<>(nuevoMovimiento, HttpStatus.CREATED);
     }
@@ -116,6 +122,7 @@ public class MovimientoController {
     )
     @PutMapping("/{id}")
     public ResponseEntity<MovimientoResponseDTO> update(@PathVariable Long id, @Valid @RequestBody MovimientoRequestDTO dto) {
+        log.info("Solicitud para actualizar el movimiento con ID: {}", id);
         MovimientoResponseDTO actualizarMovimiento = movimientoService.update(id, dto);
         return ResponseEntity.ok(actualizarMovimiento);
     }
@@ -136,6 +143,7 @@ public class MovimientoController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Solicitud para eliminar el movimiento con ID: {}", id);
         movimientoService.delete(id);
         return ResponseEntity.noContent().build();
     }

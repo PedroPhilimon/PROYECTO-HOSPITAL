@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/ordenes-compra")
+@Slf4j
 @Tag(name = "Órdenes de Compra", description = "Operaciones relacionadas con las órdenes de compra de insumos")
 public class OrdenCompraController {
 
@@ -39,6 +42,7 @@ public class OrdenCompraController {
             }
     )
     public ResponseEntity<List<OrdenCompraResponseDTO>> findAll() {
+        log.info("Solicitud para obtener todas las órdenes de compra");
         List<OrdenCompraResponseDTO> ordenes = ordenCompraService.listarTodas();
         return ResponseEntity.ok(ordenes);
     }
@@ -54,6 +58,7 @@ public class OrdenCompraController {
             }
     )
     public ResponseEntity<OrdenCompraResponseDTO> obtenerPorId(@PathVariable Long id) {
+        log.info("Solicitud para obtener la orden de compra con ID: {}", id);
         return ResponseEntity.ok(ordenCompraService.buscarPorId(id));
     }
 
@@ -68,6 +73,7 @@ public class OrdenCompraController {
             }
     )
     public ResponseEntity<OrdenCompraResponseDTO> create(@Valid @RequestBody OrdenCompraRequestDTO dto) {
+        log.info("Solicitud para crear una nueva orden de compra para el proveedor ID: {}", dto.getIdProveedor());
         OrdenCompraResponseDTO crearOrden = ordenCompraService.guardar(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(crearOrden);
     }
@@ -83,6 +89,7 @@ public class OrdenCompraController {
             }
     )
     public ResponseEntity<OrdenCompraResponseDTO> update(@PathVariable Long id, @Valid @RequestBody OrdenCompraRequestDTO dto) {
+        log.info("Solicitud para actualizar la orden de compra con ID: {}", id);
         OrdenCompraResponseDTO actualizarOrden = ordenCompraService.actualizar(id, dto);
         return ResponseEntity.ok(actualizarOrden);
     }
@@ -102,6 +109,7 @@ public class OrdenCompraController {
         }
     )
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Solicitud para eliminar la orden de compra con ID: {}", id);
         ordenCompraService.eliminar(id);
         return ResponseEntity.noContent().build();
     }

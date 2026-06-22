@@ -25,10 +25,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 
 @RestController
 @RequestMapping("api/productos")
+@Slf4j
 @Tag(name = "Productos", description = "Operaciones relacionadas con Productos")
 public class ProductoController {
     
@@ -50,6 +52,7 @@ public class ProductoController {
             }
     )
     public ResponseEntity<List<ProductoResponseDTO>> findAll() {
+        log.info("Solicitud para obtener todos los productos");
         List<ProductoResponseDTO> citasMedicas = productoService.findAll();
         return ResponseEntity.ok(citasMedicas);
     }
@@ -65,6 +68,7 @@ public class ProductoController {
             }
     )
     public ResponseEntity<Boolean> validarStock(@PathVariable Long id, @RequestParam Integer cantidad) {
+        log.info("Solicitud para validar stock del producto ID: {}, cantidad requerida: {}", id, cantidad);
         boolean tieneStock = true; 
                 
         return ResponseEntity.ok(tieneStock);
@@ -88,6 +92,7 @@ public class ProductoController {
         }
     )
     public ResponseEntity<ProductoResponseDTO> obtenerPorId(@PathVariable Long id) {
+        log.info("REST request: Solicitud para obtener el producto con ID: {}", id);
         return ResponseEntity.ok(productoService.findByDto(id));
     }
 
@@ -108,6 +113,7 @@ public class ProductoController {
         }
     )
     public ResponseEntity<ProductoResponseDTO> create(@Valid @RequestBody ProductoRequestDTO dto) {
+        log.info("Solicitud para crear un nuevo producto con nombre: '{}'", dto.getNombre());
         ProductoResponseDTO crearProducto = productoService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(crearProducto);
     }
@@ -134,6 +140,7 @@ public class ProductoController {
         }
     )
     public ResponseEntity<ProductoResponseDTO> update(@PathVariable Long id, @Valid @RequestBody ProductoRequestDTO dto) {
+        log.info("Solicitud para actualizar el producto con ID: {}", id);
         ProductoResponseDTO actualizarProducto = productoService.update(id, dto);
         return ResponseEntity.ok(actualizarProducto);
     }
@@ -154,6 +161,7 @@ public class ProductoController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Solicitud para eliminar el producto con ID: {}", id);
         productoService.delete(id);
         return ResponseEntity.noContent().build();
     }

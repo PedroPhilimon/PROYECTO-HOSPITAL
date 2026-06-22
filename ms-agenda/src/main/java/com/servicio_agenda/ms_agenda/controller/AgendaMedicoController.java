@@ -23,9 +23,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/agendas")
+@Slf4j
 @Tag(name = "Agenda", description = "Operaciones relacionadas con la agenda del médico")
 public class AgendaMedicoController {
 
@@ -47,6 +49,7 @@ public class AgendaMedicoController {
             }
     )
     public ResponseEntity<List<AgendaMedico>> listarTodas() {
+        log.info("Solicitud para obtener todas las agendas médicas disponibles");
         List<AgendaMedico> agendas = agendaMedicoService.listarTodas();
         return ResponseEntity.ok(agendas);
     }
@@ -63,6 +66,7 @@ public class AgendaMedicoController {
             }
     )
     public ResponseEntity<Optional<AgendaMedico>> obtenerPorId(@PathVariable Long id) {
+        log.info("Solicitud para obtener la agenda médica con ID: {}", id);
         return ResponseEntity.ok(agendaMedicoService.buscarPorId(id));
     }
 
@@ -78,6 +82,7 @@ public class AgendaMedicoController {
             }
     )
     public ResponseEntity<AgendaMedicoResponseDTO> crearAgenda(@Valid @RequestBody AgendaMedico dto) {
+        log.info("Solicitud para crear una nueva agenda para el médico ID: {}", dto.getIdMedico());
         AgendaMedicoResponseDTO crearAgenda = agendaMedicoService.guardar(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(crearAgenda);
     }
@@ -98,6 +103,7 @@ public class AgendaMedicoController {
         }
     )
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Solicitud para eliminar la agenda médica con ID: {}", id);
         agendaMedicoService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
