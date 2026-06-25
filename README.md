@@ -1,57 +1,81 @@
-# Proyecto Hospital - Sistema de Microservicios
+# 🏥 Proyecto Hospital - Sistema de Microservicios
 
-**Desarrollado por:**
-- Pedro Philimon
-- Evan Marquez
+**Desarrollado por:**  
+Pedro Philimon  
+Evan Marquez  
 
-Este repositorio contiene la arquitectura backend del Proyecto Hospital, un sistema escalable diseñado para la gestión integral de un centro médico. El ecosistema está desarrollado completamente sobre Java con Spring Boot y estructurado bajo el patrón arquitectónico Controller-Service-Repository.
+---
+
+## Descripción
+
+Este repositorio contiene la arquitectura backend del **Proyecto Hospital**, un sistema escalable diseñado para la gestión integral de un centro médico.
+
+El ecosistema está desarrollado completamente en **Java con Spring Boot** y estructurado bajo el patrón arquitectónico **Controller - Service - Repository**.
 
 ---
 
 ## Tecnologías y Herramientas Comunes
 
 A nivel global, todos los módulos de la solución comparten el siguiente stack tecnológico:
-* **Lenguaje:** Java 21.
-* **Framework:** Spring Boot (Spring Web, Spring Data JPA, Lombok, Validation, OpenFeign, MySQL Driver).
-* **Gestión de Base de Datos:** MySQL Server.
-* **Control de Versiones de Base de Datos:** Liquibase (ejecutando migraciones estructuradas a través de db.changelog.sql).
+
+- **Lenguaje:** Java 21  
+- **Framework:** Spring Boot (Spring Web, Spring Data JPA, Lombok, Validation, OpenFeign)  
+- **Infraestructura Cloud:** Spring Cloud Netflix Eureka (Service Discovery) y Spring Cloud Gateway  
+- **Seguridad:** Spring Security con JSON Web Tokens (JWT) para la protección de endpoints  
+- **Gestión de Base de Datos:** MySQL Server  
+- **Migraciones de Base de Datos:** Liquibase (ejecutando migraciones estructuradas a través de `db.changelog.sql`)  
+- **Despliegue y Orquestación:** Docker y Docker Compose  
+- **Documentación:** SpringDoc OpenAPI (Swagger UI)  
 
 ---
 
-## Catálogo Específico de Microservicios
+## Arquitectura Base e Infraestructura
 
-El ecosistema se compone de los siguientes 10 microservicios individuales. Cada uno de ellos administra su propio esquema de base de datos aislado de manera independiente:
+El sistema centraliza su enrutamiento, seguridad y descubrimiento en los siguientes servicios core:
 
-| Nombre del Microservicio | Puerto Local | Base de Datos Asociada (MySQL) | Propósito / Funcionalidad Principal |
-| :--- | :---: | :--- | :--- |
-| `ms-pacientes` | `8080` | `db_pacientes` | Registro, gestión de datos demográficos e información base de los pacientes. |
-| `ms-medicos` | `8081` | `db_medicos` | Administración de personal médico, turnos y asignación de especialidades médicas. |
-| `ms-citamedica` | `8082` | `db_citamedica` | Agendamiento, control de estados y flujos lógicos para las citas médicas presenciales. |
-| `ms-inventario` | `8083` | `db_inventario` | Control de stock de insumos clínicos, fármacos y movimientos de bodega interna. |
-| `ms-agenda` | `8084` | `db_agendas_medicas` | Gestión y bloqueos de calendarios de atención médica diaria y asignación de salas. |
-| `ms-facturacion` | `8085` | `db_facturacion` | Emisión de comprobantes de pago, cálculo de aranceles y liquidaciones financieras. |
-| `ms-historial` | `8086` | `db_historial` | Resguardo y auditoría del historial clínico unificado y registros de evolución médica. |
-| `ms-consultas` | `8087` | `db_consultas` | Módulo de soporte para atenciones activas, recetas y diagnósticos de consultas médicas. |
-| `ms-proveedores` | `8088` | `db_proveedores` | Administración de entidades externas proveedoras de insumos clínicos y compras. |
-| `ms-laboratorio` | `8089` | `db_laboratorio` | Control, órdenes de exámenes clínicos y carga de resultados de laboratorio. |
+| Microservicio | Puerto Local | Puerto Docker | Propósito |
+|----------------|-------------|---------------|------------|
+| ms-eureka | 8761 | 8761 | Servidor de descubrimiento. Mantiene el registro de instancias activas |
+| ms-gateway | 8090 | 8090 | Punto de entrada único (API Gateway). Enruta peticiones externas |
+| ms-auth | 8091 | 8081 | Gestión de usuarios, roles y emisión de JWT |
+
+---
+
+## Catálogo de Microservicios de Negocio
+
+Cada microservicio utiliza una base de datos independiente para garantizar la separación de datos.
+
+| Microservicio | Puerto Local | Puerto Docker | Base de Datos | Funcionalidad |
+|---------------|-------------|---------------|--------------|----------------|
+| ms-pacientes | 8080 | 8080 | db_pacientes | Gestión de pacientes |
+| ms-medicos | 8081 | 8083 | db_medicos | Gestión de médicos y turnos |
+| ms-citamedica | 8082 | 8084 | db_citamedica | Gestión de citas médicas |
+| ms-inventario | 8083 | 8085 | db_inventario | Control de insumos y stock |
+| ms-agenda | 8084 | 8086 | db_agendas_medicas | Gestión de agendas médicas |
+| ms-facturacion | 8085 | 8087 | db_facturacion | Facturación y pagos |
+| ms-historial | 8086 | 8088 | db_historial | Historial clínico |
+| ms-consultas | 8087 | 8089 | db_consultas | Atención médica y diagnósticos |
+| ms-proveedores | 8088 | 8090 | db_proveedores | Gestión de proveedores |
+| ms-laboratorio | 8089 | 8091 | db_laboratorio | Exámenes de laboratorio |
 
 ---
 
 ## Requisitos Previos
 
-Antes de proceder con el levantamiento del ecosistema de manera local, asegúrate de contar con los siguientes elementos instalados y configurados:
-1. **Java Development Kit (JDK):** Versión 21, configurada en tus variables de entorno.
-2. **Apache Maven:** Herramienta de construcción de proyectos (o el wrapper mvnw incluido en cada módulo).
-3. **Servidor MySQL:** Corriendo de manera nativa o mediante contenedor en el puerto predeterminado 3306.
+Antes de levantar el ecosistema, asegúrate de tener instalado:
+
+- Java Development Kit (JDK 21)
+- Apache Maven (o wrappers `mvnw`)
+- Docker y Docker Compose (recomendado)
+- MySQL Server (si se ejecuta sin Docker)
 
 ---
 
-## Pasos para Ejecutar y Probar el Proyecto
+## Ejecución del Proyecto
 
-### 1. Preparación de la Base de Datos
-Asegúrate de tener tu servidor MySQL en ejecución. Antes de levantar las aplicaciones, debes crear de forma manual las 10 bases de datos (por ejemplo: `CREATE DATABASE db_pacientes;`, `CREATE DATABASE db_medicos;`, etc.).
+### Opción 1: Docker Compose (Recomendada)
 
-### 2. Clonación del Repositorio
-Abre tu terminal y clona el proyecto en tu entorno de desarrollo:
+Esta es la forma más rápida de levantar todo el sistema.
+
 ```bash
 git clone https://github.com/PedroPhilimon/PROYECTO-HOSPITAL.git
