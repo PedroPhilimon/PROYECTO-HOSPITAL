@@ -14,7 +14,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
+
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -40,7 +42,8 @@ class AuthServiceTest {
 
     @Test
     void register_Success() {
-        RegisterRequest request = new RegisterRequest("juan@hospital.com", "juan123", "passSegura");
+        // CORREGIDO: username, email, password
+        RegisterRequest request = new RegisterRequest("juan123", "juan@hospital.com", "passSegura");
         
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
         when(passwordEncoder.encode(anyString())).thenReturn("passwordEncriptada");
@@ -53,7 +56,8 @@ class AuthServiceTest {
 
     @Test
     void register_InvalidEmail_ThrowsException() {
-        RegisterRequest request = new RegisterRequest("correo-malo.com", "juan123", "passSegura");
+        // CORREGIDO: username, email inválido, password
+        RegisterRequest request = new RegisterRequest("juan123", "correo-malo.com", "passSegura");
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             authService.register(request);
@@ -65,7 +69,8 @@ class AuthServiceTest {
 
     @Test
     void register_EmptyUsername_ThrowsException() {
-        RegisterRequest request = new RegisterRequest("juan@hospital.com", "", "passSegura");
+        // CORREGIDO: username vacío, email, password
+        RegisterRequest request = new RegisterRequest("", "juan@hospital.com", "passSegura");
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             authService.register(request);
@@ -77,7 +82,8 @@ class AuthServiceTest {
 
     @Test
     void register_UserAlreadyExists_ThrowsException() {
-        RegisterRequest request = new RegisterRequest("juan@hospital.com", "juan123", "passSegura");
+        // CORREGIDO: username, email, password
+        RegisterRequest request = new RegisterRequest("juan123", "juan@hospital.com", "passSegura");
         
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(new User()));
 
