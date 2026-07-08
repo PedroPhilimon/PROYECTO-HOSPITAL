@@ -4,13 +4,14 @@ import com.servicio_agenda.ms_agenda.client.MedicoClient;
 import com.servicio_agenda.ms_agenda.dto.AgendaMedicoResponseDTO;
 import com.servicio_agenda.ms_agenda.model.AgendaMedico;
 import com.servicio_agenda.ms_agenda.repository.AgendaMedicoRepository;
+import com.servicio_agenda.ms_agenda.service.impl.AgendaMedicoServiceimpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
