@@ -6,6 +6,8 @@ import com.servicio_agenda.ms_agenda.model.AgendaMedico;
 import com.servicio_agenda.ms_agenda.model.AsignacionSala;
 import com.servicio_agenda.ms_agenda.repository.AgendaMedicoRepository;
 import com.servicio_agenda.ms_agenda.repository.AsignacionSalaRepository;
+import com.servicio_agenda.ms_agenda.service.impl.AsignacionSalaServiceimpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
