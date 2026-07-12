@@ -1,7 +1,6 @@
 # 🏥 Proyecto Hospital - Sistema de Microservicios
 
 **Desarrollado por:**  
-* Pablo
 * Evan Marquez  
 * Pedro Philimon
 
